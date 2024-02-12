@@ -1,16 +1,21 @@
 <template>
  <router-view></router-view>
+<!-- <Department /> -->
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
 // import LoginPage from './views/LoginPage.vue'
+// import Navigator from './components/NavigationBar.vue';
+// import Department from "./views/DepartmentPage.vue"
 export default {
-  // name: 'App',
-  // components: {
-  //   // HelloWorld,
-  //   // LoginPage
-  // }
+  name: 'App',
+  components: {
+    // HelloWorld,
+    // LoginPage
+    // Navigator
+    // Department
+  }
 }
 </script>
 
@@ -19,8 +24,9 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 60px; */
 }
+
 </style>

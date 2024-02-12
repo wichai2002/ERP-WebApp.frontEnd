@@ -42,16 +42,15 @@
 <script>
 export default {
 
-    
 
 }
 </script>
 
 <style >
 html {
-    background-color: #2A3E4C;
+    background-color: #263540;
 }
 
 .container-fluid {
-    background-color: #2A3E4C;
+    background-color: #263540;
 }</style>

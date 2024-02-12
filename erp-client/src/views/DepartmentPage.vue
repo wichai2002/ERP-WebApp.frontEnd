@@ -22,7 +22,7 @@
                         </select>
                     </div>
                     <div class="col d-flex flex-row-reverse mx-2 text-white">
-                        <h4>Number of people: 6 people</h4>
+                        <h4>Number of people: {{ emp_info.length }} people</h4>
                     </div>
                 </div>
                 <div class="row">
@@ -38,23 +38,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
+                                <tr v-for="(item, index) in emp_info" :key="index">
+                                    <!-- <th scope="row">1</th> -->
+                                    <td>{{ item.emp_gen_id }}</td>
+                                    <td>{{ item.first_name  }} {{ item.last_name }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>{{ item.hire_date }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -273,8 +262,33 @@ export default {
                 }
             ],
             emp_info: [
+                {
+                    "emp_gen_id": 10000001,
+                    "first_name": "Jonh",
+                    "last_name": "stone",
+                    "hire_date": "2021-01-22",
+                    "email":"jonh@email.com",
+                    "role_id": 1001
+                },
+                {
+                    "emp_gen_id": 10000001,
+                    "first_name": "Phile",
+                    "last_name": "Foden",
+                    "hire_date": "2021-02-02",
+                    "email":"Foden@email.com",
+                    "role_id": 1001
+                },
+                {
+                    "emp_gen_id": 10000001,
+                    "first_name": "Klye",
+                    "last_name": "Walker",
+                    "hire_date": "2021-03-09",
+                    "email":"Klye@email.com",
+                    "role_id": 1001
+                },
 
-            ]
+            ],
+            
         };
     }
 }

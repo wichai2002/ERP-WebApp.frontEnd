@@ -6,7 +6,9 @@ import Payrolls from '../views/PayRollPage';
 import Recuitment from '../views/RecuitmentPage';
 import Attendance from '../views/AttendancePage';
 import Leave from '../views/LeavePage';
-import Training from '../views/TrainingPage'
+import Training from '../views/TrainingPage';
+import Dashborad from '../views/DashboardPage';
+import EmployeeInfo from '../views/EmployeeInfoPage'
 
 const routes = [
     {
@@ -30,20 +32,30 @@ const routes = [
         component: Recuitment
     },
     {
-        path: '/attendance',
+        path: '/attendence'.toLowerCase(),
         name: "Attendance",
         component: Attendance
     },
     {
-        path: '/leave',
+        path: '/leave'.toLowerCase(),
         name: "Leave",
         component: Leave
     },
     {
-        path: 'training',
+        path: '/training'.toLowerCase(),
         name: "Traning",
         component: Training
     },
+    {
+        path: '/dashboard'.toLowerCase(),
+        name: "dashboard",
+        component: Dashborad
+    },
+    {
+        path: '/employees'.toLowerCase(),
+        name: "employees",
+        component: EmployeeInfo
+    }
 ]
 
 const router = createRouter({

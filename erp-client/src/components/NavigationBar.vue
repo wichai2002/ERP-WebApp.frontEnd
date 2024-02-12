@@ -10,10 +10,10 @@
             <!-- Sidebar style="background-color: #2A3E4C;" -->
             <nav class="sidebar" :class="{ 'sidebar-open': isOpen }" style="background-color: #2A3E4C ;">
                 <h1 class="text-center" style="color: #2ECD99; font-weight: 700; ">HRMS</h1>
-                <div class="position-sticky">
-                    <ul class="nav flex-column mx-3">
+                <div class="position-sticky py-3">
+                    <ul class="nav flex-column mx-3 my-2">
                         <li class="nav-item d-flex justify-content-start">
-                            <router-link to="/Dashboard" class="nav-link" :class="{ active: isActive('/') }">
+                            <router-link to="/dashboard" class="nav-link" :class="{ active: isActive('/') }">
                                 <p class="fs-5 fa text-decoration-none wht" :style="{ color: navTextColor('/') }">
                                     <i class="bi bi-kanban-fill mx-2"></i><span>Dashboard</span>
                                 </p>
@@ -21,42 +21,42 @@
 
                         </li>
                         <li class="nav-item d-flex justify-content-start">
-                            <router-link to="/Employees" class="nav-link" :class="{ active: isActive('/about') }">
+                            <router-link to="/employees" class="nav-link" :class="{ active: isActive('/about') }">
                                 <p class="fs-5 fa text-decoration-none wht" :style="{ color: navTextColor('/about') }">
                                     <i class="bi bi-people-fill mx-2"></i><span>Employees</span>
                                 </p>
                             </router-link>
                         </li>
                         <li class="nav-item d-flex justify-content-start">
-                            <router-link to="/Attendence" class="nav-link" :class="{ active: isActive('/about') }">
+                            <router-link to="/attendence" class="nav-link" :class="{ active: isActive('/about') }">
                                 <p class="fs-5 fa text-decoration-none wht" :style="{ color: navTextColor('/about') }">
                                     <i class="bi bi-alarm-fill mx-2"></i><span>Attendence</span>
                                 </p>
                             </router-link>
                         </li>
                         <li class="nav-item d-flex justify-content-start">
-                            <router-link to="/Leave" class="nav-link" :class="{ active: isActive('/about') }">
+                            <router-link to="/leave" class="nav-link" :class="{ active: isActive('/about') }">
                                 <p class="fs-5 fa text-decoration-none wht" :style="{ color: navTextColor('/about') }">
                                     <i class="bi bi-calendar-week-fill mx-2"></i><span>Leave</span>
                                 </p>
                             </router-link>
                         </li>
                         <li class="nav-item d-flex justify-content-start">
-                            <router-link to="/Payroll" class="nav-link" :class="{ active: isActive('/about') }">
+                            <router-link to="/payroll" class="nav-link" :class="{ active: isActive('/about') }">
                                 <p class="fs-5 fa text-decoration-none wht" :style="{ color: navTextColor('/about') }">
                                     <i class="bi bi-people-fill mx-2"></i><span>Payroll</span>
                                 </p>
                             </router-link>
                         </li>
                         <li class="nav-item d-flex justify-content-start">
-                            <router-link to="/Training" class="nav-link" :class="{ active: isActive('/about') }">
+                            <router-link to="/training" class="nav-link" :class="{ active: isActive('/about') }">
                                 <p class="fs-5 fa text-decoration-none wht" :style="{ color: navTextColor('/about') }">
                                     <i class="bi bi-people-fill mx-2"></i><span>Training</span>
                                 </p>
                             </router-link>
                         </li>
                         <li class="nav-item d-flex justify-content-start">
-                            <router-link to="/Recuitment" class="nav-link" :class="{ active: isActive('/about') }">
+                            <router-link to="/recuitment" class="nav-link" :class="{ active: isActive('/about') }">
                                 <p class="fs-5 fa text-decoration-none wht" :style="{ color: navTextColor('/about') }">
                                     <i class="bi bi-people-fill mx-2"></i><span>Recuitment</span>
                                 </p>

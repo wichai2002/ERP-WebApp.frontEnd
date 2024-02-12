@@ -30,7 +30,11 @@
                                 <tr v-for="(item, index) in applicant" :key="index">
                                     <!-- <th scope="row">1</th> -->
                                     <td>{{ item.application_date }}</td>
-                                    <td>{{ item.first_name }} {{ item.last_name }}</td>
+                                    <td>
+                                        <a :href="'/recuitment/profile/' + item.applicant_id" style="font-weight: 600; color: black;">
+                                            {{ item.first_name }} {{ item.last_name }}
+                                        </a>
+                                    </td>
                                     <td>{{ item.role }}</td>
                                     <td>{{ item.birth }}</td>
                                     <td><a href="#">Download</a></td>
@@ -58,12 +62,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(item, index) in applicant" :key="index">
+                                <tr v-for="(item, index) in appointments" :key="index">
                                     <!-- <th scope="row">1</th> -->
-                                    <td>{{ item.application_date }}</td>
                                     <td>{{ item.first_name }} {{ item.last_name }}</td>
+                                    <td>{{ item.date }} </td>
+                                    <td>{{ item.time }}</td>
                                     <td>{{ item.role }}</td>
-                                    <td>{{ item.birth }}</td>
                                     <td>
                                         <button class="btn btn-success">
                                             Finish
@@ -74,7 +78,6 @@
                         </table>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -90,6 +93,7 @@ export default {
         return {
             applicant: [
                 {
+                    applicant_id: 10000000,
                     application_date: "2023-01-20",
                     first_name: "John",
                     last_name: "stone",
@@ -98,22 +102,34 @@ export default {
                     status: "Interviewed"
                 },
                 {
+                    applicant_id: 10000004,
                     application_date: "2023-01-20",
-                    first_name: "John",
-                    last_name: "stone",
+                    first_name: "phil",
+                    last_name: "Foden",
                     role: "Cook",
+                    birth: "2002-11-11",
+                    status: "Interviewed"
+                },
+                {
+                    applicant_id: 10000001,
+                    application_date: "2023-01-20",
+                    first_name: "Jack",
+                    last_name: "Haryson",
+                    role: "FB Manager",
                     birth: "2002-11-11",
                     status: "Appointmented"
                 },
                 {
+                    applicant_id: 10000002,
                     application_date: "2023-01-20",
                     first_name: "John",
-                    last_name: "stone",
+                    last_name: "Obe Mikel",
                     role: "Cook",
                     birth: "2002-11-11",
                     status: ""
                 },
                 {
+                    applicant_id: 10000003,
                     application_date: "2023-01-20",
                     first_name: "John",
                     last_name: "stone",
@@ -121,7 +137,28 @@ export default {
                     birth: "2002-11-11",
                     status: ""
                 },
-            ]
+            ],
+
+            appointments: [
+                {
+                    applicant_id: 10000000,
+                    first_name: "John",
+                    last_name: "stone",
+                    date: "2022-4-10",
+                    role: "Cook",
+                    status: "Appointmented",
+                    time: "16.30",
+                },
+                {
+                    applicant_id: 10000004,
+                    first_name: "Kyle",
+                    last_name: "Walker",
+                    date: "2022-4-10",
+                    role: "Cook",
+                    status: "Appointmented",
+                    time: "14.30",
+                },
+            ],
         }
     },
     methods: {
@@ -136,11 +173,11 @@ export default {
 </script>
 
 <style scoped>
-.isInterviewed {
-    color: #097400;
-}
+    .isInterviewed {
+        color: #097400;
+    }
 
-.isAppointmented {
-    color: #D0A60F;
-}
+    .isAppointmented {
+        color: #D0A60F;
+    }
 </style>

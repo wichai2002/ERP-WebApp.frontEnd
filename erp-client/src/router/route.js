@@ -8,7 +8,8 @@ import Attendance from '../views/AttendancePage';
 import Leave from '../views/LeavePage';
 import Training from '../views/TrainingPage';
 import Dashborad from '../views/DashboardPage';
-import EmployeeInfo from '../views/EmployeeInfoPage'
+import EmployeeInfo from '../views/EmployeeInfoPage';
+import RecuitmentProfile from '../views/RecuitmentProfilePage';
 
 const routes = [
     {
@@ -55,6 +56,11 @@ const routes = [
         path: '/employees'.toLowerCase(),
         name: "employees",
         component: EmployeeInfo
+    },
+    {
+        path: "/recuitment/profile/:id",
+        name: "RecuitmentProfile",
+        component: RecuitmentProfile
     }
 ]
 

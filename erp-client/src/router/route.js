@@ -10,6 +10,7 @@ import Training from '../views/TrainingPage';
 import Dashborad from '../views/DashboardPage';
 import EmployeeInfo from '../views/EmployeeInfoPage';
 import RecuitmentProfile from '../views/RecuitmentProfilePage';
+import AddTraining from '../views/AddTrainingPage';
 
 const routes = [
     {
@@ -61,7 +62,12 @@ const routes = [
         path: "/recuitment/profile/:id",
         name: "RecuitmentProfile",
         component: RecuitmentProfile
-    }
+    },
+    {
+        path: "/training/create",
+        name: "AddTraining",
+        component: AddTraining
+    },
 ]
 
 const router = createRouter({

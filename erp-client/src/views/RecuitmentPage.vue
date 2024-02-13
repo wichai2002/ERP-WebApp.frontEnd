@@ -31,7 +31,8 @@
                                     <!-- <th scope="row">1</th> -->
                                     <td>{{ item.application_date }}</td>
                                     <td>
-                                        <a :href="'/recuitment/profile/' + item.applicant_id" style="font-weight: 600; color: black;">
+                                        <a :href="'/recuitment/profile/' + item.applicant_id"
+                                            style="font-weight: 600; color: black;">
                                             {{ item.first_name }} {{ item.last_name }}
                                         </a>
                                     </td>
@@ -69,13 +70,58 @@
                                     <td>{{ item.time }}</td>
                                     <td>{{ item.role }}</td>
                                     <td>
-                                        <button class="btn btn-success">
+                                        <button class="btn btn-success" @click="OpenCloseFun(true)">
                                             Finish
                                         </button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+
+                        <!-- Modal -->
+                        <div class="modal fade show" id="exampleModal" tabindex="-1" v-if="OpenClose"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:block">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h class="modal-title" id="exampleModalLabel">Create Appointment</h>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                            @click="OpenCloseFun(false)">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><b>Fullname:</b> {{ applicant[0].first_name }} {{ applicant[0].last_name }}</p>
+                                        <p><b>Role:</b> {{ applicant[0].role }}</p>
+                                        <div class="row pb-3">
+                                            <div class="col">
+                                                <label for="date"><b>Hire date:</b> <input type="date" class="mx-2"></label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-flex">
+                                                <p><b>Status</b></p>
+                                                <div class="form-check form-check-inline mx-3">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                        id="inlineRadio1" value="option1">
+                                                    <label class="form-check-label" for="inlineRadio1">Pass</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                        id="inlineRadio2" value="option2">
+                                                    <label class="form-check-label" for="inlineRadio2">Not pass</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-center">
+                                        <button type="button" class="btn btn-secondary mx-4" data-dismiss="modal"
+                                                @click="OpenCloseFun(false)">Close</button>
+                                        <button type="button" class="btn btn-success">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -159,6 +205,8 @@ export default {
                     time: "14.30",
                 },
             ],
+
+            OpenClose: false
         }
     },
     methods: {
@@ -167,17 +215,20 @@ export default {
         },
         isAppointmented(status) {
             return status == "Appointmented";
-        }
+        },
+        OpenCloseFun(bool) {
+            this.OpenClose = bool;
+        },
     }
 }
 </script>
 
 <style scoped>
-    .isInterviewed {
-        color: #097400;
-    }
+.isInterviewed {
+    color: #097400;
+}
 
-    .isAppointmented {
-        color: #D0A60F;
-    }
+.isAppointmented {
+    color: #D0A60F;
+}
 </style>

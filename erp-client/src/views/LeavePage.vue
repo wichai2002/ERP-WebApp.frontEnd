@@ -8,7 +8,7 @@
             <div class="col-10 my-2 my-1">
                 <div class="row">
                     <div class="col">
-                        <h1 class="text-align-center py-2 mx-2 " style="color: #2ECD99;">Recuitment</h1>
+                        <h1 class="text-align-center py-2 mx-2 " style="color: #2ECD99;">Leave Information</h1>
                         <hr style="color: aliceblue;">
                     </div>
                 </div>
@@ -120,4 +120,7 @@ export default {
 </script>
 
 <style scoped>
+ tr{
+        border: 1px solid black;
+    }
 </style>

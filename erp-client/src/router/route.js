@@ -10,6 +10,7 @@ import Training from '../views/TrainingPage';
 import Dashborad from '../views/DashboardPage';
 import EmployeeInfo from '../views/EmployeeInfoPage';
 import EmployeeLeaveDay from '../views/EmployeeLeaveday';
+import EditPayroll from '../views/EditPayroll';
 
 const routes = [
     {
@@ -61,6 +62,11 @@ const routes = [
         path:'/employeeleaveday'.toLowerCase(),
         name:"employeeleaveday",
         component:  EmployeeLeaveDay
+    },
+    {
+        path:'/editpayroll'.toLowerCase(),
+        name:"editpayroll",
+        component:EditPayroll
     },
 ]
 

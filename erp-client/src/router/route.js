@@ -8,7 +8,10 @@ import Attendance from '../views/AttendancePage';
 import Leave from '../views/LeavePage';
 import Training from '../views/TrainingPage';
 import Dashborad from '../views/DashboardPage';
-import EmployeeInfo from '../views/EmployeeInfoPage'
+import EmployeeInfo from '../views/EmployeeInfoPage';
+import Home from '../views/LandingPage';
+import FormPage from '../views/FormPage';
+
 
 const routes = [
     {
@@ -55,6 +58,16 @@ const routes = [
         path: '/employees'.toLowerCase(),
         name: "employees",
         component: EmployeeInfo
+    },
+    {
+        path: '/home'.toLowerCase(),
+        name: "home",
+        component: Home
+    },
+    {
+        path: '/form'.toLowerCase(),
+        name: "formPage",
+        component: FormPage
     }
 ]
 

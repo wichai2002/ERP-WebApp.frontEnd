@@ -7,7 +7,7 @@
                <div class="text-center p-3">
                                 <button class="btn  mt-5"
                                     style=" background-color: #000000; color: aliceblue;">
-                                    <router-link to="FormPage" class="nav-link">Apply</router-link></button>
+                                    <router-link to="form" class="nav-link">Apply</router-link></button>
                             </div>
             </div>
         </div>

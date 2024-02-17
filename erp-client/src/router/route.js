@@ -11,6 +11,7 @@ import Dashborad from '../views/DashboardPage';
 import EmployeeInfo from '../views/EmployeeInfoPage';
 import EmployeeLeaveDay from '../views/EmployeeLeaveday';
 import EditPayroll from '../views/EditPayroll';
+import EmployeeEdit from '../views/EmployeeEdit';
 
 const routes = [
     {
@@ -68,6 +69,11 @@ const routes = [
         name:"editpayroll",
         component:EditPayroll
     },
+    {
+        path:'/employeeedit'.toLowerCase(),
+        name:"rditprofile",
+        component:EmployeeEdit
+    }
 ]
 
 const router = createRouter({

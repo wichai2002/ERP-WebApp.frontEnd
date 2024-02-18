@@ -3,6 +3,7 @@
         <div class="row" style="padding: 6%;">
             <div class="block01  col-md-12 col-sm-6">
                 <h1 class="text01" style="color: aliceblue;">Yinnaxs Hotel</h1>
+
                 <p class="text02" style="color: aliceblue;">Welcome to Yinnaxs Hotel, a luxurious retreat nestled in the
                     heart of [City or Location]. Our hotel combines modern elegance with a warm and inviting atmosphere,
                     offering guests a truly memorable experience. Whether you're here for business or leisure, our dedicated
@@ -11,6 +12,7 @@
                     <button class="btn  mt-5" style=" background-color: #000000; color: aliceblue;">
                         <router-link to="FormPage" class="nav-link">Apply</router-link></button>
                 </div>
+
             </div>
         </div>
     </div>

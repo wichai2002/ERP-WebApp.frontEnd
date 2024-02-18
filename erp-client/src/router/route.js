@@ -13,6 +13,9 @@ import Home from '../views/LandingPage';
 import FormPage from '../views/FormPage';
 import RecuitmentProfile from '../views/RecuitmentProfilePage';
 import AddTraining from '../views/AddTrainingPage';
+import EmployeeLeaveDay from '../views/EmployeeLeaveday';
+import EditPayroll from '../views/EditPayroll';
+import EmployeeEdit from '../views/EmployeeEdit';
 
 const routes = [
     {
@@ -79,6 +82,20 @@ const routes = [
         path: '/form'.toLowerCase(),
         name: "formPage",
         component: FormPage
+    },{
+        path:'/employeeleaveday'.toLowerCase(),
+        name:"employeeleaveday",
+        component:  EmployeeLeaveDay
+    },
+    {
+        path:'/editpayroll'.toLowerCase(),
+        name:"editpayroll",
+        component:EditPayroll
+    },
+    {
+        path:'/employeeedit'.toLowerCase(),
+        name:"rditprofile",
+        component:EmployeeEdit
     }
 ]
 

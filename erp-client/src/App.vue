@@ -1,20 +1,13 @@
 <template>
- <router-view></router-view>
-<!-- <Department /> -->
+  <router-view></router-view>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
-// import LoginPage from './views/LoginPage.vue'
-// import Navigator from './components/NavigationBar.vue';
-// import Department from "./views/DepartmentPage.vue"
+
 export default {
   name: 'App',
   components: {
-    // HelloWorld,
-    // LoginPage
-    // Navigator
-    // Department
+
   }
 }
 </script>
@@ -28,5 +21,4 @@ export default {
   color: #2c3e50;
   /* margin-top: 60px; */
 }
-
 </style>

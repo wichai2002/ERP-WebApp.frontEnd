@@ -9,6 +9,8 @@ import Leave from '../views/LeavePage';
 import Training from '../views/TrainingPage';
 import Dashborad from '../views/DashboardPage';
 import EmployeeInfo from '../views/EmployeeInfoPage';
+import Home from '../views/LandingPage';
+import FormPage from '../views/FormPage';
 import RecuitmentProfile from '../views/RecuitmentProfilePage';
 import AddTraining from '../views/AddTrainingPage';
 
@@ -67,7 +69,17 @@ const routes = [
         path: "/training/create",
         name: "AddTraining",
         component: AddTraining
+    }, 
+    {
+        path: '/home'.toLowerCase(),
+        name: "home",
+        component: Home
     },
+    {
+        path: '/form'.toLowerCase(),
+        name: "formPage",
+        component: FormPage
+    }
 ]
 
 const router = createRouter({

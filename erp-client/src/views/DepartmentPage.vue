@@ -14,24 +14,34 @@
                 </div>
                 <div class="row">
                     <div class="col-3 px-3 mx-1">
-                        <select class="form-select form-select-sm p-2" aria-label=".form-select-sm example" v-model="department_select_id">
-                            <option selected>Open this select Department</option>
-                            <option v-for="(item, index) in departmentList" :key="index" :value="item.department_id">
-                                {{ item.department_name }}
+                        <select class="form-select form-select-sm p-2" aria-label=".form-select-sm example" v-model="department_select_id" @change="FilerRoleList(department_select_id)">
+                            <option selected :value=0>Open this select Department</option>
+                            <option v-for="(item, index) in departmentList" :key="index" :value="item.department_id" >
+                                <span>{{ item.department_name }}</span>
                             </option>
                         </select>
                     </div>
-                    <div class="col-3 px-3 mx-1">
-                        <select class="form-select form-select-sm p-2" aria-label=".form-select-sm example" v-model="role_selec_id">
-                            <option selected>Open this select Role</option>
-                            <option v-for="(item, index) in roleList" :key="index" :value="item.role_id">
+
+                    <div class="col-3 px-3 mx-1" v-if="department_select_id == 0">
+                        <select class="form-select form-select-sm p-2" aria-label=".form-select-sm example" v-model="role_selec_id" >
+                            <option selected :value=0>Open this select Role</option>
+                            <option v-for="(item, index) in roleList" :key="index" :value="item.role_id" >
                                 {{ item.position }}
                             </option>
                         </select>
                     </div>
-                    <div class="col d-flex flex-row-reverse mx-2 text-white">
-                        <h4>Number of people: {{ emp_gen_info_List.length }} people</h4>
+                    <div class="col-3 px-3 mx-1" v-if="department_select_id != 0">
+                        <select class="form-select form-select-sm p-2" aria-label=".form-select-sm example" v-model="role_selec_id" >
+                            <option  :value=0>Open this select Role</option>
+                            <option v-for="(item, index) in role_fitered" :key="index" :value="item.role_id">
+                                {{ item.position }}
+                            </option>
+                        </select>
                     </div>
+
+                    <!-- <div class="col d-flex flex-row-reverse mx-2 text-white">
+                        <h4>Number of people: {{ emp_gen_info_List.length }} people</h4>
+                    </div> -->
                 </div>
                 <div class="row">
                     <div class="col p-4">
@@ -45,22 +55,28 @@
                                     <th scope="col">Hire-Date</th>
                                 </tr>
                             </thead>
-                            <tbody v-if="select_all">
+                            <tbody v-if="department_select_id == 0 && role_selec_id == 0">
                                 <tr v-for="(item, index) in emp_gen_info_List" :key="index">
-                                    <!-- <th scope="row">1</th> -->
                                     <td>{{ item.emp_gen_id }}</td>
                                     <td>{{ item.first_name }} {{ item.last_name }}</td>
                                     <td>{{ item.email }}</td>
                                     <td>{{ item.hire_date }}</td>
                                 </tr>
                             </tbody>
-                            <tbody v-else>
+                            <tbody v-if="department_select_id != 0 && role_selec_id == 0">
                                 <tr v-for="(item, index) in emp_gen_info_List" :key="index">
-                                    <!-- <th scope="row">1</th> -->
-                                    <td>{{ item.emp_gen_id }}</td>
-                                    <td>{{ item.first_name }} {{ item.last_name }}</td>
-                                    <td>{{ item.email }}</td>
-                                    <td>{{ item.hire_date }}</td>
+                                    <td v-if="FindDepartmentIDByRoleID(item.role_id) == department_select_id">{{ item.emp_gen_id }}</td>
+                                    <td v-if="FindDepartmentIDByRoleID(item.role_id) == department_select_id">{{ item.first_name }} {{ item.last_name }}</td>
+                                    <td v-if="FindDepartmentIDByRoleID(item.role_id) == department_select_id">{{ item.email }}</td>
+                                    <td v-if="FindDepartmentIDByRoleID(item.role_id) == department_select_id">{{ item.hire_date }}</td>
+                                </tr>
+                            </tbody>
+                            <tbody v-if="role_selec_id != 0 && department_select_id != 0">
+                                <tr v-for="(item, index) in emp_gen_info_List" :key="index">
+                                    <td v-show="item.role_id == role_selec_id">{{ item.emp_gen_id }}</td>
+                                    <td v-show="item.role_id == role_selec_id">{{ item.first_name }} {{ item.last_name }}</td>
+                                    <td v-show="item.role_id == role_selec_id">{{ item.email }}</td>
+                                    <td v-show="item.role_id == role_selec_id">{{ item.hire_date }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -93,7 +109,7 @@ export default {
             role_selec_id: 0,
             emp_gen_info_List: [],
             select_all: true,
-
+            role_fitered: []
         };
     },
     created() {
@@ -144,23 +160,46 @@ export default {
             })
 
             emp_gen_info_List.then(item =>{
+
+
                 if (item.status == 200){
                     console.log(item.data);
-                    this.emp_gen_info_List = item.data
+                    this.emp_gen_info_List = item.data;
                 }else if (item.status == 401){
                     clearStore();
                 }
             }).catch(error =>{
                 console.log(error);
-            })
+            });
 
         }
+    },
+    methods: {
+       FindDepartmentIDByRoleID(role_id){
+            var dep = this.roleList.find(role => role_id == role.role_id);
+            return dep.department_id;
+        },
+       FilerRoleList(department_id){
+            this.role_fitered = [];
+            this.roleList.forEach(role =>{
+                if (department_id == role.department_id){
+                    this.role_fitered.push(role);
+                    // console.log(this.role_fitered);
+                }
+            })
+
+            console.log(this.role_fitered);
+        }
     }
+
 }
 </script>
 
 <style scoped>
 thead {
     background-color: blue !important;
+}
+.noShow {
+    display: none;
 }
 </style>

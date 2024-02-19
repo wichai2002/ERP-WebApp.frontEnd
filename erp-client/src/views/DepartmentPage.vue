@@ -5,7 +5,7 @@
             <div class="col">
                 <SideBar />
             </div>
-            <div class="col-10 my-2 my-1">
+            <div class="col-10 my-2 mx-1">
                 <div class="row">
                     <div class="col">
                         <h1 class="text-align-center py-2 mx-2 " style="color: #2ECD99;">FB</h1>

@@ -19,6 +19,11 @@ import EmployeeEdit from '../views/EmployeeEdit';
 
 const routes = [
     {
+        path: '/',
+        name: "/",
+        component: Dashborad
+    },
+    {
         path: "/login".toLowerCase(),
         name: "Login",
         component: Login

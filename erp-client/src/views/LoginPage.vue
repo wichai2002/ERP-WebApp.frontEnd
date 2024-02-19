@@ -60,7 +60,6 @@ export default {
                 emp_gen_id: Number(this.emp_gen_id),
                 password: this.password
             };
-            // console.log(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Authentication`);
             const _env = process.env;
             const authen = await axios.post(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Authentication`, hrAccount);
 
@@ -72,8 +71,8 @@ export default {
                 localStorage.setItem("token", authen.data.authen_token);
 
                 console.log("Go to Dashbord!");
-
-                window.location.href = window.location.hostname + "/dashboard";
+                const port = window.location.port
+                window.location.href = `${process.env.VUE_APP_PROTOCAL}://${process.env.VUE_APP_HOST}:${port}/dashboard`;
                 // this.$router.push('/dashboard')
             } else {
                 console.log(authen.status);

@@ -8,21 +8,29 @@
             <div class="col-10 my-2 my-1">
                 <div class="row">
                     <div class="col">
-                        <h1 class="text-align-center py-2 mx-2 " style="color: #2ECD99;">FB</h1>
+                        <h1 class="text-align-center py-2 mx-2 " style="color: #2ECD99;">EMPLOYEE IN DEPARTMENTS</h1>
                         <hr style="color: aliceblue;">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-3 px-3 mx-1">
-                        <select class="form-select form-select-sm p-2" aria-label=".form-select-sm example">
-                            <option selected>Open this select menu</option>
-                            <option v-for="(item, index) in roles" :key="index" :value="item.role_id">
-                                {{ item.position}}
+                        <select class="form-select form-select-sm p-2" aria-label=".form-select-sm example" v-model="department_select_id">
+                            <option selected>Open this select Department</option>
+                            <option v-for="(item, index) in departmentList" :key="index" :value="item.department_id">
+                                {{ item.department_name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-3 px-3 mx-1">
+                        <select class="form-select form-select-sm p-2" aria-label=".form-select-sm example" v-model="role_selec_id">
+                            <option selected>Open this select Role</option>
+                            <option v-for="(item, index) in roleList" :key="index" :value="item.role_id">
+                                {{ item.position }}
                             </option>
                         </select>
                     </div>
                     <div class="col d-flex flex-row-reverse mx-2 text-white">
-                        <h4>Number of people: {{ emp_info.length }} people</h4>
+                        <h4>Number of people: {{ emp_gen_info_List.length }} people</h4>
                     </div>
                 </div>
                 <div class="row">
@@ -37,11 +45,20 @@
                                     <th scope="col">Hire-Date</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr v-for="(item, index) in emp_info" :key="index">
+                            <tbody v-if="select_all">
+                                <tr v-for="(item, index) in emp_gen_info_List" :key="index">
                                     <!-- <th scope="row">1</th> -->
                                     <td>{{ item.emp_gen_id }}</td>
-                                    <td>{{ item.first_name  }} {{ item.last_name }}</td>
+                                    <td>{{ item.first_name }} {{ item.last_name }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>{{ item.hire_date }}</td>
+                                </tr>
+                            </tbody>
+                            <tbody v-else>
+                                <tr v-for="(item, index) in emp_gen_info_List" :key="index">
+                                    <!-- <th scope="row">1</th> -->
+                                    <td>{{ item.emp_gen_id }}</td>
+                                    <td>{{ item.first_name }} {{ item.last_name }}</td>
                                     <td>{{ item.email }}</td>
                                     <td>{{ item.hire_date }}</td>
                                 </tr>
@@ -56,240 +73,88 @@
 
 <script>
 import SideBar from "../components/NavigationBar.vue";
+import axios from "axios";
+
+function clearStore() {
+    localStorage.clear();
+    const port = window.location.port
+    window.location.href = `${process.env.VUE_APP_PROTOCAL}://${process.env.VUE_APP_HOST}:${port}/login`;
+}
+
 export default {
     components: {
         SideBar
     },
     data() {
         return {
-            department_id: 1001,
-            roles: [
-                {
-                    "role_id": 101,
-                    "position": "Cook",
-                    "department_id": 1003,
-                    "start_work": "5.30",
-                    "finish_work": "15.30"
-                },
-                {
-                    "role_id": 102,
-                    "position": "Steward",
-                    "department_id": 1003,
-                    "start_work": "6.30",
-                    "finish_work": "15.30"
-                },
-                {
-                    "role_id": 103,
-                    "position": "Chef",
-                    "department_id": 1003,
-                    "start_work": "7.00",
-                    "finish_work": "16.00"
-                },
-                {
-                    "role_id": 104,
-                    "position": "CookHelper",
-                    "department_id": 1003,
-                    "start_work": "5.30",
-                    "finish_work": "15.30"
-                },
-                {
-                    "role_id": 105,
-                    "position": "CleanerCook",
-                    "department_id": 1003,
-                    "start_work": "6.30",
-                    "finish_work": "15.30"
-                },
-                {
-                    "role_id": 111,
-                    "position": "SousChef",
-                    "department_id": 1003,
-                    "start_work": "7.00",
-                    "finish_work": "16.00"
-                },
-                {
-                    "role_id": 112,
-                    "position": "Waiter /Waitress",
-                    "department_id": 1001,
-                    "start_work": "6.00",
-                    "finish_work": "15.00"
-                },
-                {
-                    "role_id": 113,
-                    "position": "FB Manager",
-                    "department_id": 1001,
-                    "start_work": "7.00",
-                    "finish_work": "16.00"
-                },
-                {
-                    "role_id": 114,
-                    "position": "Captain(FB)",
-                    "department_id": 1001,
-                    "start_work": "6.00",
-                    "finish_work": "15.00"
-                },
-                {
-                    "role_id": 115,
-                    "position": "Bartender",
-                    "department_id": 1001,
-                    "start_work": "6.00",
-                    "finish_work": "15.00"
-                },
-                {
-                    "role_id": 116,
-                    "position": "Room Service",
-                    "department_id": 1001,
-                    "start_work": "6.00",
-                    "finish_work": "15.00"
-                },
-                {
-                    "role_id": 117,
-                    "position": "Cashier(FB)",
-                    "department_id": 1001,
-                    "start_work": "6.00",
-                    "finish_work": "15.00"
-                },
-                {
-                    "role_id": 118,
-                    "position": "Maintenance Manager",
-                    "department_id": 1004,
-                    "start_work": "7.00",
-                    "finish_work": "16.00"
-                },
-                {
-                    "role_id": 119,
-                    "position": "Maintenance Engineer",
-                    "department_id": 1004,
-                    "start_work": "7.00",
-                    "finish_work": "16.00"
-                },
-                {
-                    "role_id": 120,
-                    "position": "IT Support",
-                    "department_id": 1004,
-                    "start_work": "7.00",
-                    "finish_work": "16.00"
-                },
-                {
-                    "role_id": 121,
-                    "position": "Reception",
-                    "department_id": 1002,
-                    "start_work": "6.00",
-                    "finish_work": "15.00"
-                },
-                {
-                    "role_id": 122,
-                    "position": "Cook(Night)",
-                    "department_id": 1003,
-                    "start_work": "15.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 123,
-                    "position": "Steward(Night)",
-                    "department_id": 1003,
-                    "start_work": "15.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 124,
-                    "position": "Chef(Night)",
-                    "department_id": 1003,
-                    "start_work": "16.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 125,
-                    "position": "CleanerCook(Night)",
-                    "department_id": 1003,
-                    "start_work": "16.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 126,
-                    "position": "Waiter /Waitress (Night)",
-                    "department_id": 1001,
-                    "start_work": "15.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 127,
-                    "position": "Maintenance Engineer (Night)",
-                    "department_id": 1004,
-                    "start_work": "16.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 128,
-                    "position": "Reception(Night)",
-                    "department_id": 1002,
-                    "start_work": "15.00",
-                    "finish_work": "23.30"
-                },
-                {
-                    "role_id": 129,
-                    "position": "Captain(FB-Night)",
-                    "department_id": 1001,
-                    "start_work": "15.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 130,
-                    "position": "Room Service(Night)",
-                    "department_id": 1001,
-                    "start_work": "15.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 131,
-                    "position": "Bartender(Night)",
-                    "department_id": 1001,
-                    "start_work": "15.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 132,
-                    "position": "IT Support(Night)",
-                    "department_id": 1004,
-                    "start_work": "17.00",
-                    "finish_work": "00.30"
-                },
-                {
-                    "role_id": 133,
-                    "position": "Cashier(FB-Night)",
-                    "department_id": 1001,
-                    "start_work": "16.00",
-                    "finish_work": "23.00"
-                }
-            ],
-            emp_info: [
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Jonh",
-                    "last_name": "stone",
-                    "hire_date": "2021-01-22",
-                    "email":"jonh@email.com",
-                    "role_id": 1001
-                },
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Phile",
-                    "last_name": "Foden",
-                    "hire_date": "2021-02-02",
-                    "email":"Foden@email.com",
-                    "role_id": 1001
-                },
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Klye",
-                    "last_name": "Walker",
-                    "hire_date": "2021-03-09",
-                    "email":"Klye@email.com",
-                    "role_id": 1001
-                },
+            departmentList: [],
+            department_select_id: 0,
+            roleList: [],
+            role_selec_id: 0,
+            emp_gen_info_List: [],
+            select_all: true,
 
-            ],
-            
         };
+    },
+    created() {
+        const token = localStorage.getItem("token");
+        const _env = process.env;
+        if (token) {
+            const departmentList = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Department/list`
+                , {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+            departmentList.then(item => {
+                if (item.status == 200) {
+                    console.log(item.data);
+                    this.departmentList = item.data
+                } else if (item.status == 401) {
+                    clearStore();
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+
+            const roleList = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Role/list`
+                , {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+            roleList.then(item => {
+                if (item.status == 200) {
+                    console.log(item.data);
+                    this.roleList = item.data
+                } else if (item.status == 401) {
+                    clearStore();
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+
+            const emp_gen_info_List = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Emp_general_information/list`
+            ,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            emp_gen_info_List.then(item =>{
+                if (item.status == 200){
+                    console.log(item.data);
+                    this.emp_gen_info_List = item.data
+                }else if (item.status == 401){
+                    clearStore();
+                }
+            }).catch(error =>{
+                console.log(error);
+            })
+
+        }
     }
 }
 </script>

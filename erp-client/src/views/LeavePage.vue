@@ -14,7 +14,7 @@
                 </div>
                 <div class="row">
                     <!-- content here -->
-
+                    {{ data1 }}
                     <!-- search -->
                     <div class="col-2" style="margin-left: 1%;">
                         <input type="text" placeholder="search...." class="w-100">
@@ -61,6 +61,7 @@
 <script>
 
 import SideBar from '../components/NavigationBar.vue';
+import axios from 'axios';
 export default {
     components: {
         SideBar
@@ -101,7 +102,10 @@ export default {
                     status: "0"
                 }
             ],
-            check:0
+            check:0,
+            data1:[],
+            access_token:'',
+            data2:[]
         }
     },
     methods: {
@@ -115,6 +119,29 @@ export default {
 
         }
     },
+    async created(){
+
+
+        this.access_token = localStorage.getItem("token");
+
+        axios.get('http://localhost:5257/api/Leave/check', {
+            headers: {
+                'Authorization': `token ${this.access_token}`
+            }
+            })
+            .then((res) => {
+            console.log(res.data)
+            this.data1 = res.data;
+            })
+            .catch((error) => {
+            console.error(error)
+            })
+
+
+
+
+    
+}
     
 }
 </script>

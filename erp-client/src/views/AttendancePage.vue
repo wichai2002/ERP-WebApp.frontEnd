@@ -25,7 +25,6 @@
                         <button class="btn btn-success mt-2 mb-2 col-4" @click="toggleAddModal">Add</button>
                     </div>
                 </div>
-
                 <!-- Display table of attendance -->
                 <div class="row h-25 " style="">
                     <div class="col p-4 d-flex flex-column">
@@ -51,31 +50,21 @@
                                 </tbody>
                             </table>
                         </div>
-
                         <div class="col" style="margin-top: 2%; background-color: aliceblue; position: relative;">
-    <select class="form-select form-select-sm p-2" aria-label=".form-select-sm example"
-        v-model="selectedMonth" style="width: 10%; position: relative; left: 90%;">
-        <option disabled value="">Select a month</option>
-        <option v-for="(month, index) in months" :key="index" :value="month.month_id">
-            {{ month.month }}
-        </option>
-    </select>
-    <div>
-    <canvas id="myChart" ></canvas>
-</div>
-</div>
+                            <select class="form-select form-select-sm p-2" aria-label=".form-select-sm example"
+                                v-model="selectedMonth" style="width: 10%; position: relative; left: 90%;">
+                                <option disabled value="">Select a month</option>
+                                <option v-for="(month, index) in months" :key="index" :value="month.month_id">
+                                    {{ month.month }}
+                                </option>
+                            </select>
+                            <div>
+                                <canvas id="myChart"></canvas>
+                            </div>
+                        </div>
                     </div>
-
-
                 </div>
-
-
-
-
-
-
             </div>
-
         </div>
 
     </div>
@@ -382,16 +371,7 @@ export default {
             this.isAddModalVisible = !this.isAddModalVisible;
         },
         addNewData() {
-            // เพิ่มข้อมูลใหม่ลงในฐานข้อมูลหรือระบบของคุณ
-            // axios.post("/api/users", {
-            //   name: this.newName,
-            //   age: this.newRole,
-            // });
-
-            // ปิดป๊อปอัพ
             this.isAddModalVisible = false;
-
-            // แสดงข้อความหรือรีเฟรชข้อมูล
         },
         updateChartForSelectedMonth(monthId) {
             // Filter the attendance data for the selected month
@@ -460,14 +440,12 @@ export default {
 thead {
     background-color: blue !important;
 }
-
 .table-container {
     margin-top: 2%;
     max-height: 60%;
     overflow-y: auto;
 
 }
-
 .table {
     height: 100%;
 

@@ -9,7 +9,8 @@
 
             <div class="row">
                 <!-- content here -->
-
+                {{ date_day }}
+                {{ diff_day }}
                 <!-- block detail -->
                 <div class="row" style="margin-left: 1%;">
  
@@ -26,9 +27,9 @@
                             </div>
                             <div class="col-4 my-5">
                                <h5 style="margin-bottom: 20px;">{{em_id}}</h5>
-                               <h5 style="margin-bottom: 20px;">{{em_info.employee_name}}</h5>
-                               <h5 style="margin-bottom: 20px;">{{em_info.department}}</h5>
-                               <h5 style="margin-bottom: 20px;">{{ em_info.employee_role }}</h5>
+                               <h6 style="margin-bottom: 20px;">{{data2.first_name}} {{data2.last_name}}</h6>
+                               <h5 style="margin-bottom: 20px;">{{data3._Roles.position}}</h5>
+                               <h5 style="margin-bottom: 20px;">{{ data3._department.department_name }}</h5>
                             </div>
                         </div>
                     </div>
@@ -49,18 +50,18 @@
                         <tbody>
                             <tr>
                                 <td>sick leave</td>
-                                <td v-if="day.sick_leave >= 30" style="color: red;">{{day.sick_leave}}/30</td>
-                                <td v-if="day.sick_leave < 30">{{day.sick_leave}}/30</td>
+                                <td v-if="data1.sick_leave >= 30" style="color: red;">{{data1.sick_leave}}/30</td>
+                                <td v-if="data1.sick_leave < 30">{{data1.sick_leave}}/30</td>
                             </tr>
                             <tr>
                                 <td>Leave of absence</td>
-                                <td v-if="day.Leave_of_absence < 30">{{day.Leave_of_absence}}/30</td>
-                                <td v-if="day.Leave_of_absence >= 30" style="color: red;">{{day.Leave_of_absence}}/30</td>
+                                <td v-if="data1.personal_leave < 30">{{data1.personal_leave}}/30</td>
+                                <td v-if="data1.personal_leave >= 30" style="color: red;">{{data1.personal_leave}}/30</td>
                             </tr>
                             <tr>
                                 <td>take annual leave</td>
-                                <td style="color: red;" v-if="day.take_annual_leave >= 30">{{day.take_annual_leave}}/30</td>
-                                <td  v-if="day.take_annual_leave < 30">{{day.take_annual_leave}}/30</td>
+                                <td style="color: red;" v-if="data1.vacation_leave >= 30">{{data1.vacation_leave}}/30</td>
+                                <td  v-if="data1.vacation_leave < 30">{{data1.vacation_leave}}/30</td>
                             </tr>
 
 
@@ -102,7 +103,7 @@
 <script>
 
 import SideBar from '../components/NavigationBar.vue';
-
+import axios from 'axios';
 export default {
 components: {
     SideBar
@@ -152,7 +153,14 @@ data(){
 
         check:0,
         em_id:'',
-        list_em:[]
+        list_em:[],
+        access_token:'',
+        data1:[],
+        data2:[],
+        data3:[],
+        role_id:'',
+        date_day:[],
+        diff_day:0
     }
 },
 methods: {
@@ -161,6 +169,70 @@ methods: {
 async created(){
     const urlParams = new URLSearchParams(window.location.search);
     this.em_id = urlParams.get("emp_id")
+    this.role_id = urlParams.get("role_id")
+
+    this.access_token = localStorage.getItem("token");
+
+        axios.get('http://localhost:5257/api/Leave/day/'+this.em_id, {
+            headers: {
+                'Authorization': `token ${this.access_token}`
+            }
+            })
+            .then((res) => {
+            console.log(res.data)
+            this.data1 = res.data[0];
+            })
+            .catch((error) => {
+            console.error(error)
+            })
+
+
+
+        axios.get('http://localhost:5257/api/Leave/dayper/'+this.em_id, {
+        headers: {
+                'Authorization': `token ${this.access_token}`
+            }
+            })
+            .then((res) => {
+            
+            this.data2 = res.data[0];
+            })
+            .catch((error) => {
+            console.error(error)
+            })
+
+
+        axios.get('http://localhost:5257/api/Leave/department/'+this.role_id, {
+                headers: {
+                    'Authorization': `token ${this.access_token}`
+                }
+            })
+            .then((res) => {
+            
+            this.data3 = res.data[0];
+
+            })
+            .catch((error) => {
+            console.error(error)
+            })
+
+
+        axios.get('http://localhost:5257/api/Leave/diffdate/'+this.em_id ,{
+            headers: {
+                'Authorization': `token ${this.access_token}`
+                }
+            })
+            .then((res) => {
+            
+            this.date_day = res.data[0];
+            console.log(this.data2)
+            })
+            .catch((error) => {
+            console.error(error)
+            })
+
+
+        this.diff_day = this.date_day.start_leave - this.date_day.end_leave
 
     
 }

@@ -34,7 +34,7 @@
                             </thead>
                             <tbody v-for="item in data1" :key="item">
                                 <tr v-if="item._per.status == 0">
-                                        <td><a :href="'./employeeleaveday?emp_id='+item.employee_id" style="color: black; text-decoration: none;">{{item._gen.emp_gen_id}}</a></td>
+                                        <td><a :href="'./employeeleaveday?emp_id='+item._gen.emp_gen_id+'&role_id='+item._gen.role_id" style="color: black; text-decoration: none;">{{item._gen.emp_gen_id}}</a></td>
                                         <td>{{item._gen.first_name}} {{item._gen.last_name}}</td>
                                         <td>{{item.role_name}}</td>
                                         <td>{{item._per.type}}</td>
@@ -104,7 +104,8 @@ export default {
             check:0,
             data1:[],
             access_token:'',
-            data2:[]
+            data2:[],
+            data3:[]
         }
     },
     methods: {

@@ -14,7 +14,6 @@
                 </div>
                 <div class="row">
                     <!-- content here -->
-                    {{ data1 }}
                     <!-- search -->
                     <div class="col-2" style="margin-left: 1%;">
                         <input type="text" placeholder="search...." class="w-100">
@@ -33,13 +32,13 @@
                                     <th scope="col">examining</th>
                                 </tr>
                             </thead>
-                            <tbody v-for="item in leave" :key="item">
-                                <tr v-if="item.status == 0">
-                                        <td><a :href="'./employeeleaveday?emp_id='+item.employee_id" style="color: black; text-decoration: none;">{{item.employee_id}}</a></td>
-                                        <td>{{item.employee_name}}</td>
-                                        <td>{{item.employee_role}}</td>
-                                        <td>{{item.type}}</td>
-                                        <td>{{item.date}}</td>
+                            <tbody v-for="item in data1" :key="item">
+                                <tr v-if="item._per.status == 0">
+                                        <td><a :href="'./employeeleaveday?emp_id='+item.employee_id" style="color: black; text-decoration: none;">{{item._gen.emp_gen_id}}</a></td>
+                                        <td>{{item._gen.first_name}} {{item._gen.last_name}}</td>
+                                        <td>{{item.role_name}}</td>
+                                        <td>{{item._per.type}}</td>
+                                        <td>{{item._per.start_leave}} - {{item._per.end_leave}}</td>
                                         <td>
                                             <button class="btn btn-success btn-sm" style="margin-right: 3%; width: 20%;" @click="confirm(item.employee_id)">Yes</button>
                                             <button class="btn btn-danger btn-sm" style="width: 20%;" @click="none_confirm(item.employee_id)">No</button>

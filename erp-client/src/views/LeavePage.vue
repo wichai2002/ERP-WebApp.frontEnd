@@ -105,7 +105,7 @@ export default {
             data1:[],
             access_token:'',
             data2:[],
-            data3:[]
+
         }
     },
     methods: {

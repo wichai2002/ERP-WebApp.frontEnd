@@ -88,6 +88,7 @@ export default {
     components: {
         SideBar
     },
+
     data() {
         return {
             title: '',

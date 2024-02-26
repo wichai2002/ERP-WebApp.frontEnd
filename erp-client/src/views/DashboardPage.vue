@@ -16,7 +16,7 @@
                     <div class="col-sm m-2 text-align-center d-flex align-items-center rounded"
                         style="justify-content: space-around; background-color: aliceblue; width: 30%;">
                         <h4>Total Employee</h4>
-                        <h4>20</h4>
+                        <h4> {{ data1.length }} </h4>
                     </div>
                     <div class="col-sm m-2 text-align-center d-flex align-items-center rounded"
                         style="background-color: aliceblue; width: 30%; justify-content: space-around;">
@@ -26,7 +26,7 @@
                     <div class="col-sm m-2 text-align-center d-flex align-items-center rounded"
                         style="background-color: aliceblue; width: 30%; justify-content: space-around;">
                         <h4>On Leave</h4>
-                        <h4>20</h4>
+                        <h4>{{ data1.length }}</h4>
                     </div>
                 </div>
                 <div class="row m-3 d-flex" style="display: flex; justify-content: space-between; height: 72%;">
@@ -99,14 +99,21 @@
 <script>
 import SideBar from '../components/NavigationBar.vue';
 import Chart from 'chart.js/auto';
+import axios from 'axios';
 export default {
     components: {
         SideBar
     },
+    data(){
+        return{
+            data1: []
+        }
+    },
     methods: {
+        
         goToDepartment() {
             this.$router.push('/department');
-        }
+        },
     },
     mounted() {
         const ctx = document.getElementById('myChart');
@@ -129,9 +136,35 @@ export default {
             }
         }
     }
+
 });
         myChart;
+        
+    },
+    async created(){
+
+
+this.access_token = localStorage.getItem("token");
+
+axios.get('http://localhost:5257/api/Emp_general_information', {
+    headers: {
+        'Authorization': `token ${this.access_token}`
     }
+    })
+    .then((res) => {
+    console.log(res.data)
+    this.data1 = res.data;
+    console.log(this.data1.length)
+    })
+    .catch((error) => {
+    console.error(error)
+    })
+
+
+
+
+
+}
 }
 </script>
 

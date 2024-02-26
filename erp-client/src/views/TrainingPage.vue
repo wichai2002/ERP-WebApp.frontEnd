@@ -15,11 +15,14 @@
                 <div class="row">
                     <!-- content here -->
                     <div class="col p-2 ">
-                        <div class="row p-1 mx-3 ">
-                            <div class="col justify-content-end d-flex ">
-                                <button class="btn btn-md btn-success">
-                                    <a href="/training/create" class="text-decoration-none text-white">Add Training</a>
-                                </button>
+                        <div class="row p-1 mx-3 d-flex justify-content-end ">
+                            <div class="col-lg-3 col-mb-2 col-sm-2">
+                                <a href="/training/create" class="text-decoration-none text-white">
+                                    <button class="btn btn-md btn-success">
+                                        Add Training
+                                    </button>
+                                </a>
+
                             </div>
                         </div>
                         <div class="row p-3 mx-2">
@@ -30,29 +33,29 @@
                                         <th scope="col">Title</th>
                                         <th scope="col">Time</th>
                                         <th scope="col">Department</th>
-                                        <th scope="col">Amount</th>
+                                        <!-- <th scope="col">Amount</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(item, index) in training_list" :key="index">
                                         <td>{{ item.date }}</td>
                                         <td>{{ item.title }}</td>
-                                        <td>{{ item.time_start }} - {{ item.time_end }}</td>
-                                        <td>{{ item.department }}</td>
-                                        <td>{{ item.amount }}</td>
+                                        <td>{{ item.time }}</td>
+                                        <td>{{ item.department_name }}</td>
+                                        <!-- <td>{{ item.amount }}</td> -->
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 import SideBar from '../components/NavigationBar.vue';
 export default {
     components: {
@@ -60,27 +63,18 @@ export default {
     },
     data() {
         return {
-            training_list: [
-                {
-                    train_id: 1000,
-                    title: "UP TO ENGLIST SKILL",
-                    date: "2023-02-23",
-                    time_start: "09.30",
-                    time_end: "12.00",
-                    department: "Maintanance",
-                    amount: 20
-                },
-                {
-                    train_id: 1001,
-                    title: "UP TO ENGLIST SKILL",
-                    date: "2023-02-24",
-                    time_start: "09.30",
-                    time_end: "12.00",
-                    department: "FB",
-                    amount: 20
-                },
-            ]
+            training_list: []
         }
+    },
+    created() {
+        const _env = process.env;
+        const training_list = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Training/list`);
+
+        training_list.then(item => {
+            if (item.status == 200) {
+                this.training_list = item.data
+            }
+        })
     }
 }
 </script>

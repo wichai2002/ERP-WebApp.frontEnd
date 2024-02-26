@@ -37,7 +37,7 @@
                                         </a>
                                     </td>
                                     <td>{{ item.role }}</td>
-                                    <td>{{ item.birth }}</td>
+                                    <td>{{ item.date_of_birth }}</td>
                                     <td><a href="#">Download</a></td>
                                     <td :class="{ isInterviewed: isInterviewed(item.status), isAppointmented: isAppointmented(item.status) }"
                                         style="font-weight: 600;">
@@ -85,7 +85,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h class="modal-title" id="exampleModalLabel">Create Appointment</h>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                        <button type="button" class="close col-1" data-dismiss="modal" aria-label="Close"
                                             @click="OpenCloseFun(false)">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -99,7 +99,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col d-flex">
+                                            <div class="col-lg-7 col-mb-5 col-sm-3 d-flex">
                                                 <p><b>Status</b></p>
                                                 <div class="form-check form-check-inline mx-3">
                                                     <input class="form-check-input" type="radio" name="inlineRadioOptions"
@@ -114,10 +114,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer d-flex justify-content-center">
-                                        <button type="button" class="btn btn-secondary mx-4" data-dismiss="modal"
+                                    <div class="modal-footer d-flex justify-content-center row">
+                                        <button type="button" class="btn btn-secondary mx-4 col-lg-5 col-mb-4 col-sm-3" data-dismiss="modal"
                                                 @click="OpenCloseFun(false)">Close</button>
-                                        <button type="button" class="btn btn-success">Submit</button>
+                                        <button type="button" class="btn btn-success col-lg-5 col-mb-4 col-sm-3">Submit</button>
                                     </div>
                                 </div>
                             </div>
@@ -131,81 +131,22 @@
 
 <script>
 import SideBar from '../components/NavigationBar.vue';
+import axios from 'axios';
+
+function clearStore() {
+    localStorage.clear();
+    const port = window.location.port
+    window.location.href = `${process.env.VUE_APP_PROTOCAL}://${process.env.VUE_APP_HOST}:${port}/login`;
+}
+
 export default {
     components: {
         SideBar
     },
     data() {
         return {
-            applicant: [
-                {
-                    applicant_id: 10000000,
-                    application_date: "2023-01-20",
-                    first_name: "John",
-                    last_name: "stone",
-                    role: "Cook",
-                    birth: "2002-11-11",
-                    status: "Interviewed"
-                },
-                {
-                    applicant_id: 10000004,
-                    application_date: "2023-01-20",
-                    first_name: "phil",
-                    last_name: "Foden",
-                    role: "Cook",
-                    birth: "2002-11-11",
-                    status: "Interviewed"
-                },
-                {
-                    applicant_id: 10000001,
-                    application_date: "2023-01-20",
-                    first_name: "Jack",
-                    last_name: "Haryson",
-                    role: "FB Manager",
-                    birth: "2002-11-11",
-                    status: "Appointmented"
-                },
-                {
-                    applicant_id: 10000002,
-                    application_date: "2023-01-20",
-                    first_name: "John",
-                    last_name: "Obe Mikel",
-                    role: "Cook",
-                    birth: "2002-11-11",
-                    status: ""
-                },
-                {
-                    applicant_id: 10000003,
-                    application_date: "2023-01-20",
-                    first_name: "John",
-                    last_name: "stone",
-                    role: "Cook",
-                    birth: "2002-11-11",
-                    status: ""
-                },
-            ],
-
-            appointments: [
-                {
-                    applicant_id: 10000000,
-                    first_name: "John",
-                    last_name: "stone",
-                    date: "2022-4-10",
-                    role: "Cook",
-                    status: "Appointmented",
-                    time: "16.30",
-                },
-                {
-                    applicant_id: 10000004,
-                    first_name: "Kyle",
-                    last_name: "Walker",
-                    date: "2022-4-10",
-                    role: "Cook",
-                    status: "Appointmented",
-                    time: "14.30",
-                },
-            ],
-
+            applicant: [],
+            appointments: [],
             OpenClose: false
         }
     },
@@ -219,6 +160,42 @@ export default {
         OpenCloseFun(bool) {
             this.OpenClose = bool;
         },
+
+
+    },
+    created(){
+        const _env = process.env;
+        
+        if (localStorage.getItem('token')){
+            const applicant_list = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Applicant/list`, {
+                headers:{
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            applicant_list.then(item =>{
+                if (item.status == 200){
+                    this.applicant = item.data;
+                    console.log(item.data);
+                }else if (item.status == 401){
+                    clearStore();
+                }
+            });
+
+            const appointment_list = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Appoinment/list`, {
+                headers:{
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            appointment_list.then(item =>{
+                if (item.status == 200){
+                    this.appointments = item.data;
+                }else if (item.status == 401){
+                    clearStore();
+                }
+            });
+        }
     }
 }
 </script>

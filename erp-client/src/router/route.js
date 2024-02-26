@@ -16,8 +16,14 @@ import AddTraining from '../views/AddTrainingPage';
 import EmployeeLeaveDay from '../views/EmployeeLeaveday';
 import EditPayroll from '../views/EditPayroll';
 import EmployeeEdit from '../views/EmployeeEdit';
+import EditTime from '../views/EditTime'
 
 const routes = [
+    {
+        path: '/',
+        name: "/",
+        component: Dashborad
+    },
     {
         path: "/login".toLowerCase(),
         name: "Login",
@@ -94,8 +100,13 @@ const routes = [
     },
     {
         path:'/employeeedit'.toLowerCase(),
-        name:"rditprofile",
+        name:"editprofile",
         component:EmployeeEdit
+    },
+    {
+        path:'/edittime'.toLowerCase(),
+        name:"edittime",
+        component:EditTime
     }
 ]
 

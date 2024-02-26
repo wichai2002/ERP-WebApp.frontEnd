@@ -24,7 +24,6 @@ export default {
 
     if (emp_gen_id && token){
       this.isLogin = true;
-      // this.$router.push('/dashboard');
     }
 
   }

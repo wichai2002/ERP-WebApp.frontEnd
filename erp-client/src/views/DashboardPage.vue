@@ -26,7 +26,7 @@
                     <div class="col-sm m-2 text-align-center d-flex align-items-center rounded"
                         style="background-color: aliceblue; width: 30%; justify-content: space-around;">
                         <h4>On Leave</h4>
-                        <h4>{{ data1.length }}</h4>
+                        <h4>19</h4>
                     </div>
                 </div>
                 <div class="row m-3 d-flex" style="display: flex; justify-content: space-between; height: 72%;">
@@ -77,7 +77,8 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-end mx-2">
-                            <button class="btn btn-success w-25"><router-link to="edittime" class="nav-link">Edit</router-link></button>
+                            <button class="btn btn-success w-25"><router-link to="edittime"
+                                    class="nav-link">Edit</router-link></button>
                         </div>
                     </div>
                     <div class="col rounded p-2"
@@ -104,13 +105,13 @@ export default {
     components: {
         SideBar
     },
-    data(){
-        return{
+    data() {
+        return {
             data1: []
         }
     },
     methods: {
-        
+
         goToDepartment() {
             this.$router.push('/department');
         },
@@ -118,54 +119,66 @@ export default {
     mounted() {
         const ctx = document.getElementById('myChart');
         const myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: ['Feb', 'Mar', 'May', 'Apr', 'Jul', 'Aug'],
-        datasets: [{
-            label: '# of Peoples',
-            data: [12, 19, 3, 5, 2, 3],
-            borderColor: 'purple', // เพิ่ม property borderColor และกำหนดค่าเป็นสีม่วง
-            borderWidth: 1,
-            lineTension: 0.5 
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
+            type: 'line',
+            data: {
+                labels: ['Feb', 'Mar', 'May', 'Apr', 'Jul', 'Aug'],
+                datasets: [{
+                    label: '# of Peoples',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderColor: 'purple', // เพิ่ม property borderColor และกำหนดค่าเป็นสีม่วง
+                    borderWidth: 1,
+                    lineTension: 0.5
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
-        }
-    }
 
-});
+        });
         myChart;
-        
+
     },
-    async created(){
+    async created() {
 
 
-this.access_token = localStorage.getItem("token");
+        this.access_token = localStorage.getItem("token");
 
-axios.get('http://localhost:5257/api/Emp_general_information', {
-    headers: {
-        'Authorization': `token ${this.access_token}`
+        axios.get('http://localhost:5257/api/Emp_general_information', {
+            headers: {
+                'Authorization': `token ${this.access_token}`
+            }
+        })
+            .then((res) => {
+                console.log(res.data)
+                this.data1 = res.data;
+                console.log(this.data1.length)
+            })
+            .catch((error) => {
+                console.error(error)
+            }),
+
+            axios.get('http://localhost:5257/api/Emp_general_information', {
+                headers: {
+                    'Authorization': `token ${this.access_token}`
+                }
+            })
+                .then((res) => {
+                    console.log(res.data)
+                    this.data1 = res.data;
+                    console.log(this.data1.length)
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
     }
-    })
-    .then((res) => {
-    console.log(res.data)
-    this.data1 = res.data;
-    console.log(this.data1.length)
-    })
-    .catch((error) => {
-    console.error(error)
-    })
-
-
-
-
-
 }
-}
+
+        
+
 </script>
 
 <style scoped></style>

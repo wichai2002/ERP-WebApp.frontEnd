@@ -33,7 +33,7 @@
                                     <div class="col-6">
                                         <h5 class="mb-3"><b style="font-weight: 900;">Fullname:</b> {{ applicant.first_name
                                         }} {{ applicant.last_name }}</h5>
-                                        <h5 class="mb-3"><b style="font-weight: 900;">Nickname:</b> {{ applicant.nickName }}
+                                        <h5 class="mb-3"><b style="font-weight: 900;">Nickname:</b> {{ applicant.nickname }}
                                         </h5>
                                         <h5 class="mb-3"><b style="font-weight: 900;">Age:</b> {{ applicant.age }}</h5>
                                         <h5 class="mb-3"><b style="font-weight: 900;">Nationality:</b> {{
@@ -44,8 +44,11 @@
                                     <div class="col-6">
                                         <h5 class="mb-3"><b style="font-weight: 900;">Birth Day:</b> {{
                                             applicant.date_of_birth }} </h5>
-                                        <h5 class="mb-3"><b style="font-weight: 900;">Education:</b> {{ applicant.education
-                                        }}</h5>
+                                        <h5 class="mb-3"><b style="font-weight: 900;">Education:</b>
+                                            <p>{{ applicant.education_1 }}</p>
+                                            <p>{{ applicant.education_2 }}</p>
+                                            <p>{{ applicant.education_3 }}</p>
+                                        </h5>
                                         <h5 class="mb-3"><b style="font-weight: 900;">More about me:</b> {{
                                             applicant.aboutme }}</h5>
                                     </div>
@@ -65,8 +68,8 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col py-3 d-flex justify-content-center">
+                        <div class="row mb-3 d-flex justify-content-center">
+                            <div class="col-lg-4 col-mb-3 col-sm-2 py-3 d-flex justify-content-center">
                                 <button type="button" class="btn btn-lg bg-success text-white " data-toggle="modal"
                                     data-target="#exampleModal" @click="OpenCloseFun(true)">
                                     Add to Interview
@@ -80,28 +83,35 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h class="modal-title" id="exampleModalLabel">Create Appointment</h>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                                                @click="OpenCloseFun(false)">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
+                                            <div class="col-1">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                                    @click="OpenCloseFun(false)">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+
                                         </div>
                                         <div class="modal-body">
-                                            <p>Fullname: {{ applicant.first_name}} {{ applicant.last_name }}</p>
+                                            <p> <b>Fullname:</b> {{ applicant.first_name }} {{ applicant.last_name }}</p>
                                             <div class="row pb-3">
                                                 <div class="col">
-                                                    <label for="date">Select date: <input type="date"></label>
+                                                    <label for="date">Select date: <input type="date"
+                                                            v-model="date_appointment"></label>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col">
-                                                    <label for="time">Select time: <input type="time"></label>
+                                                    <label for="time">Select time: <input type="time"
+                                                            v-model="time_appointment"></label>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
+                                        <div class="modal-footer  d-flex justify-content-center">
                                             <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                 @click="OpenCloseFun(false)">Close</button> -->
-                                            <button type="button" class="btn btn-success">Save</button>
+
+                                            <button type="button" @click="saveAppointment()"
+                                                class="btn btn-success col-lg-3 col-mb-2 col-sm-1">Save</button>
                                         </div>
                                     </div>
                                 </div>
@@ -115,6 +125,12 @@
 </template>
 
 <script>
+function clearStore() {
+    localStorage.clear();
+    const port = window.location.port
+    window.location.href = `${process.env.VUE_APP_PROTOCAL}://${process.env.VUE_APP_HOST}:${port}/login`;
+}
+import axios from 'axios';
 import SideBar from '../components/NavigationBar.vue';
 export default {
     components: {
@@ -122,33 +138,73 @@ export default {
     },
     data() {
         return {
-            applicant: {
-                applicant_id: 10000000,
-                application_date: "2023-01-20",
-                first_name: "John",
-                last_name: "stone",
-                role: "Cook",
-                department: "FB",
-                age: 27,
-                birth: "2002-11-11",
-                status: "Interviewed",
-                nationality: "English",
-                gender: "male",
-                date_of_birth: "1998-01-11",
-                education: "Bachelor of Science Program in Information Technology",
-                aboutme: "good boy",
-                phone: "0982312341",
-                email: "jonh@gmail.com",
-                nickName: "Jonh"
-            },
-            OpenClose: false
+            applicant: [],
+            OpenClose: false,
+            date_appointment: '',
+            time_appointment: ''
         }
     },
     methods: {
         OpenCloseFun(bool) {
             this.OpenClose = bool;
         },
+
+       async saveAppointment() {
+            const _env = process.env;
+            if (this.date_appointment && this.time_appointment) {
+                const data = {
+                    date: this.date_appointment,
+                    time: this.time_appointment,
+                    applicant_id: this.applicant.applicant_id
+                }
+
+                const token = localStorage.getItem('token');
+                const emp_gen_id = localStorage.getItem("emp_gen_id");
+                const hrName = localStorage.getItem("hrName");
+
+                if ( token && emp_gen_id && hrName) {
+                    const create = await axios.post(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Appoinment/`, data, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            emp_gen_id: emp_gen_id,
+                            hrName: hrName,
+                        },
+                    });
+
+                    if (create.status == 201){
+                        alert("Add new an appointment successful \n"+" we sended message to "+ this.applicant.first_name + " "+ this.applicant.last_name);
+                        this.OpenCloseFun(false);
+                    }else if (create.status == 401){
+                        clearStore();
+                    }else{
+                        alert("Have someting wrong!!");
+                    }
+                }
+
+            } else {
+                alert("Error someting wrong!!")
+            }
+        }
     },
+    created() {
+        const _env = process.env;
+
+        if (localStorage.getItem('token')) {
+            const id = this.$route.params.id;
+            const applicant = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Applicant/` + id, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            applicant.then(item => {
+                if (item.status == 200) {
+                    this.applicant = item.data;
+                    console.log(item.data);
+                }
+            });
+        }
+    }
 }
 </script>
 

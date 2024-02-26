@@ -69,7 +69,7 @@ export default {
                 }
                 localStorage.setItem("emp_gen_id", authen.data.emp_gen_id);
                 localStorage.setItem("token", authen.data.authen_token);
-
+                localStorage.setItem("hrName", authen.data.hrName);
                 console.log("Go to Dashbord!");
                 const port = window.location.port
                 window.location.href = `${process.env.VUE_APP_PROTOCAL}://${process.env.VUE_APP_HOST}:${port}/dashboard`;

@@ -40,8 +40,8 @@
                                         <td>{{item._per.type}}</td>
                                         <td>{{item._per.start_leave}} - {{item._per.end_leave}}</td>
                                         <td>
-                                            <button class="btn btn-success btn-sm" style="margin-right: 3%; width: 20%;" @click="confirm(item.employee_id)">Yes</button>
-                                            <button class="btn btn-danger btn-sm" style="width: 20%;" @click="none_confirm(item.employee_id)">No</button>
+                                            <button class="btn btn-success btn-sm" style="margin-right: 3%; width: 24%;" @click="confirm(item._gen.emp_gen_id,item._per.leave_req_number,item._per.type)">Yes</button>
+                                            <button class="btn btn-danger btn-sm" style="width: 24%;" @click="none_confirm(item._gen.emp_gen_id,item._per.leave_req_number,item._per.type)">No</button>
                                         </td>
                                 </tr>
 
@@ -105,17 +105,41 @@ export default {
             data1:[],
             access_token:'',
             data2:[],
+            cc: 0
 
         }
     },
     methods: {
-        confirm(sid){
-            console.log(sid);
+        confirm(sid,rid,typ){
+            
+            
+            if (typ == 'sick_leave'){
+                this.cc = 4
+            }
+            else if(typ=='personal_leave'){
+                this.cc = 5
+            }
+            else{
+                this.cc = 6
+            }
+            console.log(sid,rid,typ,this.cc);
 
-
+            axios.put('http://localhost:5257/api/Leave/confirm/'+sid+'/'+rid+'/'+this.cc+'/1', {
+            headers: {
+                'Authorization': `token ${this.access_token}`
+            }
+            })
+            alert("Ok")
+            
         },
-        none_confirm(sid){
+        none_confirm(sid,rid,typ){
             console.log(sid)
+            axios.put('http://localhost:5257/api/Leave/confirm/'+sid+'/'+rid+'/'+typ+'/2', {
+            headers: {
+                'Authorization': `token ${this.access_token}`
+            }
+            })
+            alert("sad")
 
         }
     },

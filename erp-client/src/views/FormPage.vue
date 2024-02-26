@@ -28,6 +28,10 @@
                         <input type="text" id="lastname" v-model="lastname" required>
                     </div>
                     <div class="form-group">
+                        <label for="shortname">Shortname*</label>
+                        <input type="text" id="lastname" v-model="lastname" required>
+                    </div>
+                    <div class="form-group">
                         <label for="age">Age*</label>
                         <input type="number" id="age" v-model="age" required>
                     </div>
@@ -40,12 +44,20 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="nationality">Nationality*</label>
+                        <input type="text" id="lastname" v-model="lastname" required>
+                    </div>
+                    <div class="form-group">
                         <label for="birthday">Birth Day*</label>
                         <input type="date" id="birthday" v-model="birthday" required>
                     </div>
                     <div class="form-group">
                         <label for="education">Education*</label>
                         <input type="text" id="education" v-model="education" required>
+                        <label style="margin-top: 2%;" for="education1">Education(Optional)</label>
+                        <input style="margin-top: 2%;" type="text" id="education" v-model="education" required>
+                        <label style="margin-top: 2%;" for="education2">Education(Optional)</label>
+                        <input style="margin-top: 2%;" type="text" id="education" v-model="education" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email*</label>

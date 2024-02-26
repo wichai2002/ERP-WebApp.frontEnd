@@ -25,9 +25,13 @@ export default {
     if (emp_gen_id && token){
       this.isLogin = true;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       // this.$router.push('/dashboard');
 >>>>>>> origin/front_frem
+=======
+      // this.$router.push('/dashboard');
+>>>>>>> origin/front_meen
     }
 
   }

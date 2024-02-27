@@ -21,12 +21,12 @@
                     <div class="col-sm m-2 text-align-center d-flex align-items-center rounded"
                         style="background-color: aliceblue; width: 30%; justify-content: space-around;">
                         <h4>Today's Attendance</h4>
-                        <h4>20</h4>
+                        <h4>{{ attendatatoday.length }}</h4>
                     </div>
                     <div class="col-sm m-2 text-align-center d-flex align-items-center rounded"
                         style="background-color: aliceblue; width: 30%; justify-content: space-around;">
                         <h4>On Leave</h4>
-                        <h4>19</h4>
+                        <h4>{{ leavedata.length }}</h4>
                     </div>
                 </div>
                 <div class="row m-3 d-flex" style="display: flex; justify-content: space-between; height: 72%;">
@@ -42,7 +42,7 @@
                                 <h4 style="font-size: 21px; font-weight: 700;">(9.00-12.00)</h4>
                             </div>
                             <div>
-                                <h4>68</h4>
+                                <h4>{{ fbData.length }}</h4>
                             </div>
 
                         </div>
@@ -53,7 +53,7 @@
                                 <h4 style="font-size: 21px; font-weight: 700;">(8.00-16.00)</h4>
                             </div>
                             <div>
-                                <h4>70</h4>
+                                <h4>{{ recepData.length }}</h4>
                             </div>
                         </div>
                         <div @click="goToDepartment" class="mx-2 my-3 p-2 rounded d-flex align-items-center"
@@ -63,7 +63,7 @@
                                 <h4 style="font-size: 21px; font-weight: 700;">(09.00-18.00)</h4>
                             </div>
                             <div>
-                                <h4 style="">80</h4>
+                                <h4 style="">{{ houseData.length }}</h4>
                             </div>
                         </div>
                         <div @click="goToDepartment" class="mx-2 my-3 p-2 rounded d-flex align-items-center"
@@ -73,7 +73,7 @@
                                 <h4 style="font-size: 21px; font-weight: 700;">(08.00-20.00)</h4>
                             </div>
                             <div style="">
-                                <h4>48</h4>
+                                <h4>{{ mainData.length }}</h4>
                             </div>
                         </div>
                         <div class="d-flex justify-content-end mx-2">
@@ -83,7 +83,7 @@
                     </div>
                     <div class="col rounded p-2"
                         style=" margin-left: 1%; margin-top: 3%; background-color: rgb(255, 255, 255); width: 30%; height: 100%;">
-                        <p style="font-size: 20px;">last 6 months report</p>
+                        <p style="font-size: 20px;">last attendance 6 months report</p>
                         <div>
 
                             <canvas id="myChart"></canvas>
@@ -107,40 +107,16 @@ export default {
     },
     data() {
         return {
-            data1: []
+            data1: [],
+            data2: [],
+            fbData: [],
+            recepData: [],
+            houseData: [],
+            mainData: [],
+            leavedata: [],
+            attendata: [],
+            attendatatoday: [],
         }
-    },
-    methods: {
-
-        goToDepartment() {
-            this.$router.push('/department');
-        },
-    },
-    mounted() {
-        const ctx = document.getElementById('myChart');
-        const myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Feb', 'Mar', 'May', 'Apr', 'Jul', 'Aug'],
-                datasets: [{
-                    label: '# of Peoples',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderColor: 'purple', // เพิ่ม property borderColor และกำหนดค่าเป็นสีม่วง
-                    borderWidth: 1,
-                    lineTension: 0.5
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-
-        });
-        myChart;
-
     },
     async created() {
 
@@ -153,31 +129,128 @@ export default {
             }
         })
             .then((res) => {
-                console.log(res.data)
+
                 this.data1 = res.data;
-                console.log(this.data1.length)
+
             })
             .catch((error) => {
                 console.error(error)
             }),
 
-            axios.get('http://localhost:5257/api/Emp_general_information', {
+            axios.get('http://localhost:5257/api/Emp_general_information/withRoles', {
                 headers: {
                     'Authorization': `token ${this.access_token}`
                 }
             })
                 .then((res) => {
-                    console.log(res.data)
-                    this.data1 = res.data;
-                    console.log(this.data1.length)
+
+                    this.data2 = res.data;
+
+                    this.fbData = this.data2.filter(item => item.department_id === 1001);
+                    this.recepData = this.data2.filter(item => item.department_id === 1002);
+                    this.houseData = this.data2.filter(item => item.department_id === 1003);
+                    this.mainData = this.data2.filter(item => item.department_id === 1004);
+
+
                 })
                 .catch((error) => {
                     console.error(error)
+                }),
+            axios.get('http://localhost:5257/api/Leave', {
+                headers: {
+                    'Authorization': `token ${this.access_token}`
+                }
+            })
+                .then((res) => {
+
+                    this.leavedata = res.data;
+
                 })
+                .catch((error) => {
+                    console.error(error)
+                }),
+            axios.get('http://localhost:5257/api/Attendance', {
+                headers: {
+                    'Authorization': `token ${this.access_token}`
+                }
+            })
+                .then((res) => {
+                    const today = new Date();
+                    const formattedToday = today.toISOString().substring(0, 10); // วันที่ปัจจุบัน
+
+                    this.attendata = res.data;
+                    // กรองข้อมูลเฉพาะวันที่ปัจจุบัน
+                    this.attendatatoday = this.attendata.filter(item => {
+                        const itemDate = new Date(item.date); // แปลงวันที่ในข้อมูลเป็นวัตถุ Date
+                        const itemFormattedDate = itemDate.toISOString().substring(0, 10); // แปลงเป็นรูปแบบของวันที่เหมือนกับ formattedToday
+                        return itemFormattedDate === formattedToday;
+                    });
+
+                    // หลังจากโหลดข้อมูลเสร็จสิ้น ทำการสร้างกราฟ
+                    this.createChart();
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+    },
+    methods: {
+        goToDepartment() {
+            this.$router.push('/department');
+        },
+        createChart() {
+            const ctx = document.getElementById('myChart');
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [], // เก็บชื่อเดือนที่จะแสดงบนกราฟ
+                    datasets: [{
+                        label: 'Attendance',
+                        data: [], // เก็บจำนวนการเข้างานในแต่ละเดือน
+                        borderColor: 'purple',
+                        borderWidth: 1,
+                        lineTension: 0.5
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // กรองข้อมูลเฉพาะ 6 เดือนย้อนหลัง
+            const sixMonthsAgo = new Date();
+            sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 5); // 6 เดือนที่แล้ว
+            const filteredData = this.attendata.filter(item => new Date(item.date) >= sixMonthsAgo);
+
+            // แปลงข้อมูลเดือนในรูปแบบ 'MMM' (เดือนที่แสดงในกราฟ)
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const months = [];
+            const attendanceCount = [];
+
+            // วนลูปเพื่อสร้างข้อมูลสำหรับกราฟ
+            for (let i = 0; i < 6; i++) {
+                const currentDate = new Date();
+                currentDate.setMonth(currentDate.getMonth() - i);
+                const currentMonth = currentDate.getMonth();
+                const label = monthNames[currentMonth];
+                const dataOfMonth = filteredData.filter(item => new Date(item.date).getMonth() === currentMonth);
+                const count = dataOfMonth.length;
+
+                months.unshift(label); // เพิ่มเดือนลงในอาร์เรย์ให้เรียงตามลำดับ
+                attendanceCount.unshift(count); // เพิ่มจำนวนการเข้างานลงในอาร์เรย์ให้เรียงตามลำดับ
+            }
+
+            // อัปเดตข้อมูลใน Chart.js
+            myChart.data.labels = months;
+            myChart.data.datasets[0].data = attendanceCount;
+            myChart.update();
+        }
     }
 }
 
-        
 
 </script>
 

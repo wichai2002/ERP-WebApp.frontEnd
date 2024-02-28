@@ -84,8 +84,8 @@
                         <tbody v-for="(item,index) in date_day.le" :key="item">
                             <tr>
                                     <td>{{item.type}}</td>
-                                    <td>{{item.start_leave}}</td>
-                                    <td>{{item.end_leave}}</td>
+                                    <td>{{date_day.start_leave[index]}}</td>
+                                    <td>{{date_day.end_leave[index]}}</td>
                                     <td>{{date_day.diff[index]}}</td>
                             </tr>
                         </tbody>

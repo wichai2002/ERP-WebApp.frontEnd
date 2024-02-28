@@ -163,11 +163,11 @@ export default {
 
 
     },
-    created(){
+   async created(){
         const _env = process.env;
         
         if (localStorage.getItem('token')){
-            const applicant_list = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Applicant/list`, {
+            const applicant_list = await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Applicant/list`, {
                 headers:{
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -182,7 +182,7 @@ export default {
                 }
             });
 
-            const appointment_list = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Appoinment/list`, {
+            const appointment_list = await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Appoinment/list`, {
                 headers:{
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }

@@ -186,8 +186,6 @@ async created(){
             console.error(error)
             })
 
-
-
         axios.get('http://localhost:5257/api/Leave/dayper/'+this.em_id, {
         headers: {
                 'Authorization': `token ${this.access_token}`
@@ -208,9 +206,7 @@ async created(){
                 }
             })
             .then((res) => {
-            
             this.data3 = res.data[0];
-
             })
             .catch((error) => {
             console.error(error)
@@ -231,10 +227,7 @@ async created(){
             console.error(error)
             })
 
-
         this.diff_day = this.date_day.start_leave - this.date_day.end_leave
-
-    
 }
 
 }

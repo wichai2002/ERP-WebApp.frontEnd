@@ -103,7 +103,7 @@
 
                     <!-- edit salary base -->
                     <div class="col-10 bg-white py-4 ms-5" style="border-radius: 10px; padding-left: 3%; padding-right: 3%; margin-bottom: 5%;">
-                        <div class="col-4 bg-white" style="position: absolute; top: 77%; width: 20%; left: 23%; text-align: center;">
+                        <div class="col-4 bg-white" style="position: absolute; top: 81%; width: 20%; left: 23%; text-align: center;">
                             <h3>EDIT BASE SALARY ROLES</h3>
                         </div>
 

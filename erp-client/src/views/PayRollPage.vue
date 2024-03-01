@@ -70,7 +70,6 @@
                                         <th scope="col">ROLES</th>
                                         <th scope="col">AMOUNT</th>
                                         <th scope="col">SALARY BASE</th>
-                                        <th scope="col">DISCOUNT</th>
                                         <th scope="col">MAX SALARY</th>
                                         <th scope="col">MIN SALARY</th>
                                         <th scope="col">SALARY</th>
@@ -81,7 +80,6 @@
                                             <td>{{item.role}}</td>
                                             <td>{{item.Amount}}</td>
                                             <td>{{item.salary_base}}</td>
-                                            <td style="color: red;">{{ item.discount }}</td>
                                             <td>{{item.max_salary}}</td>
                                             <td>{{item.min_salary}}</td>
                                             <td>{{item.salary}}</td>
@@ -100,6 +98,7 @@
 
 <script>
 import SideBar from '../components/NavigationBar.vue';
+import axios from 'axios';
 export default {
     components: {
         SideBar
@@ -187,8 +186,27 @@ export default {
                     salary:32000
                 }
             ],
+            data:[],
+            access_token:'',
         }
-    }
+        
+    },
+    async created() {
+            this.access_token = localStorage.getItem("token");
+
+            axios.get('http://localhost:5257/api/Payroll', {
+            headers: {
+                'Authorization': `token ${this.access_token}`
+            }
+            })
+            .then((res) => {
+            console.log(res.data)
+            this.data = res.data;
+            })
+            .catch((error) => {
+            console.error(error)
+            })
+        },
 }
 </script>
 

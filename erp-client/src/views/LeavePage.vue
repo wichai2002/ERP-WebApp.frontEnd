@@ -130,8 +130,15 @@ export default {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }
+            }.then(response => {
+            console.log(response);
+            alert("Update leave for employee success");
+            location.reload();
             })
-            alert("Ok")
+            .catch(error => {
+                console.log(error);
+                alert("Failed to update leave for employee. Please try again later."); // แจ้งเตือนให้ผู้ใช้ทราบ
+            }))
             
         },
         none_confirm(sid,rid,typ){
@@ -140,10 +147,17 @@ export default {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }
+            }.then(response => {
+            console.log(response);
+            alert("Update leave for employee success");
+            location.reload();
             })
-            alert("sad")
+            .catch(error => {
+                console.log(error);
+                alert("Failed to update leave for employee. Please try again later."); // แจ้งเตือนให้ผู้ใช้ทราบ
+            }))
 
-        }
+            }
     },
     async created(){
 

@@ -60,41 +60,8 @@
                                 <div class="col-auto">
                                     <input type="text" id="inputPassword6" class="form-control" v-model="salary"/>
                                 </div>
-                            </div>
-                            <div class="row g-3 align-items-center">
-                                <div class="col-auto">
-                                    <label for="inputPassword6" class="col-form-label">DISCOUNT</label>
-                                </div>
-                                <div class="col-auto">
-                                    <input type="text" id="inputPassword6" class="form-control" v-model="discount"/>
-                                </div>
-                                <div class="col-auto">
-                                    <span id="passwordHelpInline" class="form-text">
-                                    %
-                                    </span>
-                                </div>
-
-                                <div class="col-auto" style="margin-left: 8%;">
-                                    <label for="inputPassword6" class="col-form-label">MOUNT DISCOUNT</label>
-                                </div>
-                                <div class="col-auto">
-                                    <input type="date" id="inputPassword6" class="form-control" v-model="mount"/>
-                                </div>
-                            </div>
-                            <div class="row g-3 align-items-center">
-                                <div class="col-auto">
-                                    <label for="inputPassword6" class="col-form-label">Bonus</label>
-                                </div>
-                                <div class="col-auto">
-                                    <input type="text" id="inputPassword6" class="form-control" v-model="Bonus"/>
-                                </div>
-                                <div class="col-auto">
-                                    <span id="passwordHelpInline" class="form-text">
-                                    % per year
-                                    </span>
-                                </div>
                                 <div class="col-auto" style="margin-left: 30rem;">
-                                   <button class="btn btn-success" style="text-align: center;" @click="save_perem(this.id)">SAVE</button>
+                                   <button class="btn btn-success" style="text-align: center; align-items: center;" @click="save_perem(this.id)">SAVE</button>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +70,7 @@
 
                     <!-- edit salary base -->
                     <div class="col-10 bg-white py-4 ms-5" style="border-radius: 10px; padding-left: 3%; padding-right: 3%; margin-bottom: 5%;">
-                        <div class="col-4 bg-white" style="position: absolute; top: 46em; width: 25rem; text-align: center;">
+                        <div class="col-4 bg-white" style=" top: 35em; width: 25rem; text-align: center;">
                             <h3>EDIT BASE SALARY ROLES</h3>
                         </div>
 
@@ -112,42 +79,18 @@
                                 <label for="inputPassword6" class="col-form-label">Roles</label>
                             </div>
                             <div class="col-auto">
-                                <input type="text" id="inputPassword6" class="form-control" />
+                                <input type="text" id="inputPassword6" class="form-control" v-model="role2"/>
                             </div>
 
                             <div class="col-auto" style="margin-left: 10%;">
                                 <label for="inputPassword6" class="col-form-label">Salary Base</label>
                             </div>
                             <div class="col-auto">
-                                <input type="text" id="inputPassword6" class="form-control" />
+                                <input type="text" id="inputPassword6" class="form-control" v-model="salary_base"/>
                             </div>
 
-                            <div class="row g-3 align-items-center">
-                                <div class="col-auto">
-                                    <label for="inputPassword6" class="col-form-label">Discount</label>
-                                </div>
-                                <div class="col-auto">
-                                    <input type="text" id="inputPassword6" class="form-control" />
-                                </div>
-
-                                <div class="col-auto" style="margin-left: 10%;">
-                                    <label for="inputPassword6" class="col-form-label">MOUNT DISCOUNT</label>
-                                </div>
-                                <div class="col-auto">
-                                    <input type="DATE" id="inputPassword6" class="form-control" />
-                                </div>
-                            </div>
-
-                            <div class="row g-3 align-items-center">
-                                <div class="col-auto">
-                                    <label for="inputPassword6" class="col-form-label">Bonus</label>
-                                </div>
-                                <div class="col-auto">
-                                    <input type="text" id="inputPassword6" class="form-control" />
-                                </div>
-                                <div class="col-auto" style="margin-left: 30rem;">
-                                   <button class="btn btn-success">SAVE</button>
-                                </div>
+                            <div class="col-auto" style="margin-left: 10rem;">
+                                   <button class="btn btn-success" @click="save_role()">SAVE</button>
                             </div>
 
 
@@ -174,11 +117,12 @@ export default {
             name:'',
             department:'',
             role:'',
-            discount:0,
-            mount:'',
-            Bonus:0,
             access_token:'',
-            salary:0
+            salary:0,
+            role2:'',
+            salary_base:0,
+            dataRole:[],
+            departmentId: 0
         }
     },
     async created() {
@@ -203,15 +147,57 @@ export default {
             console.error(error)
             })
         },
-        save_perem(pid){
+        async save_perem(pid){
             console.log(pid);
-            
+            await axios.put("http://localhost:5257/api/Payroll/updateEm/" + pid + "/" + this.salary)
+        .then(response => {
+            console.log(response);
+            alert("Update payroll for employee success");
+            location.reload();
+        })
+        .catch(error => {
+            console.log(error);
+            alert("Failed to update payroll for employee. Please try again later."); // แจ้งเตือนให้ผู้ใช้ทราบ
+        });
+        },
+        async get_role(rid){
+            console.log(rid);
+            await axios.get('http://localhost:5257/api/Payroll/getrole/'+ this.role2, {
+            headers: {
+                'Authorization': `token ${this.access_token}`
+            }
+            })
+            .then((res) => {
+            console.log(res.data)
+            this.dataRole = res.data[0];
+            this.salary_base = res.data.salaryBase;
+            this.departmentId = res.data.departmentId;
+            })
+            .catch((error) => {
+            console.error(error)
+            })
+        },
+         save_role(){
+             axios.put("http://localhost:5257/api/Payroll/updatepayRole/" + this.departmentId + "/" + this.salary_base)
+        .then(response => {
+            console.log(response);
+            alert("Update payroll for Roles success");
+            location.reload();
+        })
+        .catch(error => {
+            console.log(error);
+            alert("Failed to update payroll for Roles. Please try again later."); // แจ้งเตือนให้ผู้ใช้ทราบ
+        });
         }
     },
     watch:{
         id(newVal){
             this.getInfo(newVal);
+        },
+        role2(newVal){
+            this.get_role(newVal)
         }
+        
     }
 };
 </script>

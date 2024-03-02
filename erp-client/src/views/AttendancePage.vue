@@ -40,13 +40,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(item, index) in filteredEmployees" :key="index">
-                                        <td>{{ item.date }}</td>
-                                        <td>{{ item.first_name }} {{ item.last_name }}</td>
-                                        <td>{{ item.time }}</td>
-                                        <td>{{ item.role }}</td>
-                                        <td>{{ item.event }}</td>
-                                    </tr>
+                                    <tr v-for="(item, index) in attendata" :key="index">
+    <td>{{ item.date }}</td>
+    <td>{{ item.emp_gen_id }} {{ item.last_name }}</td>
+    <td>{{ item.time_in }}</td>
+    <td>{{ item.time_out }}</td>
+    <td>{{ item.event }}</td>
+</tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -116,6 +117,7 @@
 import SideBar from "../components/NavigationBar.vue";
 import moment from 'moment';
 import Chart from 'chart.js/auto';
+import axios from 'axios';
 
 export default {
     components: {
@@ -183,163 +185,15 @@ export default {
 
 
             ],
-
-            emp_info: [
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Jonny",
-                    "last_name": "stonerr",
-                    "role": "chef",
-                    "email": "jondsfgh@email.com",
-                    "role_id": 1001,
-                    "event": "In",
-                    "time": "09.00",
-                    "date": "04/12/2024"
-                },
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Jonny",
-                    "last_name": "stonerr",
-                    "role": "chef",
-                    "email": "jondsfgh@email.com",
-                    "role_id": 1001,
-                    "event": "In",
-                    "time": "09.00",
-                    "date": "04/05/2024"
-                },
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Jonh",
-                    "last_name": "stone",
-                    "role": "chef",
-                    "email": "jonh@email.com",
-                    "role_id": 1001,
-                    "event": "In",
-                    "time": "09.00",
-                    "date": "04/01/2024"
-                },
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Jonh",
-                    "last_name": "stone",
-                    "role": "chef",
-                    "email": "jonh@email.com",
-                    "role_id": 1001,
-                    "event": "Out",
-                    "time": "15.00",
-                    "date": "04/01/2024"
-                },
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Klye",
-                    "last_name": "Walker",
-                    "role": "IT Support",
-                    "email": "Klye@email.com",
-                    "role_id": 1001,
-                    "event": "In",
-                    "time": "09.00",
-                    "date": "05/01/2024"
-                },
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Phile",
-                    "last_name": "Foden",
-                    "role": "Cashier",
-                    "email": "Foden@email.com",
-                    "role_id": 1001,
-                    "event": "In",
-                    "time": "10.00",
-                    "date": "05/01/2024"
-                },
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Phile",
-                    "last_name": "Foden",
-                    "role": "Cashier",
-                    "email": "Foden@email.com",
-                    "role_id": 1001,
-                    "event": "Out",
-                    "time": "15.30",
-                    "date": "05/01/2024"
-                },
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Klye",
-                    "last_name": "Walker",
-                    "role": "IT Support",
-                    "email": "Klye@email.com",
-                    "role_id": 1001,
-                    "event": "Out",
-                    "time": "17.00",
-                    "date": "05/01/2024"
-                },
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Luka",
-                    "last_name": "Ku",
-                    "role": "Maintenance",
-                    "email": "Klye@email.com",
-                    "role_id": 1001,
-                    "event": "in",
-                    "time": "10.00",
-                    "date": "06/01/2024"
-                },
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Luka",
-                    "last_name": "Modric",
-                    "role": "Chef",
-                    "email": "Klye@email.com",
-                    "role_id": 1001,
-                    "event": "in",
-                    "time": "9.00",
-                    "date": "06/01/2024"
-                },
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Luka",
-                    "last_name": "Ku",
-                    "role": "Maintenance",
-                    "email": "Klye@email.com",
-                    "role_id": 1001,
-                    "event": "Out",
-                    "time": "17.00",
-                    "date": "06/01/2024"
-                },
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Luka",
-                    "last_name": "Modric",
-                    "role": "Chef",
-                    "email": "Klye@email.com",
-                    "role_id": 1001,
-                    "event": "Out",
-                    "time": "18.00",
-                    "date": "06/01/2024"
-                },
-                {
-                    "emp_gen_id": 10000001,
-                    "first_name": "Luke",
-                    "last_name": "Ric",
-                    "role": "Rider",
-                    "email": "Klsdfye@email.com",
-                    "role_id": 1001,
-                    "event": "In",
-                    "time": "09.00",
-                    "date": "06/02/2024"
-                },
-
-
-
-            ],
-            searchTerm: '',
-            selectedDate: ''
-        };
+             searchTerm: '',
+            selectedDate: '',
+            attendata: []
+         };
     },
     computed: {
         filteredEmployees() {
             // Filtering employees based on search term
-            const filteredList = this.emp_info.filter(employee =>
+            const filteredList = this.attendata.filter(employee =>
                 (employee.first_name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
                     employee.last_name.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
                 (this.selectedDate === '' || moment(employee.date, "DD/MM/YYYY").format("YYYY-MM-DD") === this.selectedDate)
@@ -432,6 +286,31 @@ export default {
     mounted() {
 
         this.updateChartForSelectedMonth(this.selectedMonth);
+    },
+    async created(){
+        axios.get('http://localhost:5257/api/Attendance', {
+                headers: {
+                    'Authorization': `token ${this.access_token}`
+                }
+            })
+                .then((res) => {
+                    const today = new Date();
+                    const formattedToday = today.toISOString().substring(0, 10); // วันที่ปัจจุบัน
+
+                    this.attendata = res.data;
+                    // กรองข้อมูลเฉพาะวันที่ปัจจุบัน
+                    this.attendatatoday = this.attendata.filter(item => {
+                        const itemDate = new Date(item.date); // แปลงวันที่ในข้อมูลเป็นวัตถุ Date
+                        const itemFormattedDate = itemDate.toISOString().substring(0, 10); // แปลงเป็นรูปแบบของวันที่เหมือนกับ formattedToday
+                        return itemFormattedDate === formattedToday;
+                    });
+
+                    // หลังจากโหลดข้อมูลเสร็จสิ้น ทำการสร้างกราฟ
+                   console.log(this.attendata);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
     }
 }
 </script>

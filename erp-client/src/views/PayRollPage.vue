@@ -20,7 +20,7 @@
                 <div class="row">
                     <!-- content here -->
 
-                    <div class="col-12 p-4">
+                    <div class="col-12 p-4" style="overflow-x: auto; overflow-y: auto; max-height: 40rem; margin-bottom: 5rem;">     
                         <table class="table " style="text-align: center;">
                             <thead class="table-dark table-active"> 
                                 <tr>
@@ -33,13 +33,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                    <tr v-for="item in payroll" :key="item" style="border: 1px solid black;">
-                                        <td>{{item.emp_id}}</td>
-                                        <td>{{item.Name}}</td>
-                                        <td>{{item.Role}}</td>
+                                    <tr v-for="item in data_all" :key="item" style="border: 1px solid black;">
+                                        <td>{{item.id}}</td>
+                                        <td>{{item.fullname}}</td>
+                                        <td>{{item.position}}</td>
                                         <td>{{ item.pay_date }}</td>
-                                        <td>{{item.base_salary}}</td>
-                                        <td>{{item.salary}}</td>
+                                        <td>{{item.baseSalary}}</td>
+                                        <td>{{item.salaryPeo}}</td>
                                     </tr>
                                 <tr>
                                         <td></td>
@@ -58,7 +58,7 @@
                         </table>
                     </div>
 
-                    <div class="col-11 bg-white  mx-4 py-4" style="border-radius: 5px;">
+                    <div class="col-11 bg-white  mx-4 py-4"  style="overflow-x: auto; overflow-y: auto; max-height: 40rem; margin-bottom: 5rem; border-radius: 5px;">
                         <div class="mx-2">
                             <h4><b>PAYROLL AVERAGE</b></h4>
                         </div>
@@ -76,13 +76,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        <tr v-for="item in role_pay" :key="item" style="border: opx solid white;">
-                                            <td>{{item.role}}</td>
-                                            <td>{{item.Amount}}</td>
-                                            <td>{{item.salary_base}}</td>
-                                            <td>{{item.max_salary}}</td>
-                                            <td>{{item.min_salary}}</td>
-                                            <td>{{item.salary}}</td>
+                                        <tr v-for="item in data3" :key="item" style="border: opx solid white;">
+                                            <td>{{item.roleName}}</td>
+                                            <td>{{item.countPeo}}</td>
+                                            <td>{{item.baseSalary}}</td>
+                                            <td>{{item.maxSalary}}</td>
+                                            <td>{{item.minSalary}}</td>
+                                            <td>{{item.sumSalary}}</td>
                                         </tr>
                                 </tbody>
                         </table>
@@ -186,7 +186,8 @@ export default {
                     salary:32000
                 }
             ],
-            data:[],
+            data_all:[],
+            data3:[],
             access_token:'',
         }
         
@@ -201,7 +202,8 @@ export default {
             })
             .then((res) => {
             console.log(res.data)
-            this.data = res.data;
+            this.data_all = res.data.all;
+            this.data3 = res.data.count;
             })
             .catch((error) => {
             console.error(error)

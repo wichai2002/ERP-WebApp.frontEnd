@@ -34,7 +34,7 @@
                                 <label for="inputPassword6" class="col-form-label">Fullname</label>
                             </div>
                             <div class="col-auto">
-                                <input type="text" id="inputPassword6" class="form-control" v-model="name"/>
+                                <input type="text" id="inputPassword6" class="form-control" v-model="name" readonly/>
                             </div>
 
                             <div class="row g-3 align-items-center">
@@ -42,14 +42,14 @@
                                     <label for="inputPassword6" class="col-form-label">Department</label>
                                 </div>
                                 <div class="col-auto">
-                                    <input type="text" id="inputPassword6" class="form-control" v-model="department"/>
+                                    <input type="text" id="inputPassword6" class="form-control" v-model="department" readonly/>
                                 </div>
 
                                 <div class="col-auto" style="margin-left: 10%;">
                                     <label for="inputPassword6" class="col-form-label">Roles</label>
                                 </div>
                                 <div class="col-auto">
-                                    <input type="text" id="inputPassword6" class="form-control" v-model="role"/>
+                                    <input type="text" id="inputPassword6" class="form-control" v-model="role" readonly/>
                                 </div>
                             </div>
 
@@ -93,8 +93,8 @@
                                     % per year
                                     </span>
                                 </div>
-                                <div class="col-auto" style="margin-left: 40%;">
-                                   <button class="btn btn-success">SAVE</button>
+                                <div class="col-auto" style="margin-left: 30rem;">
+                                   <button class="btn btn-success" style="text-align: center;" @click="save_perem(this.id)">SAVE</button>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
 
                     <!-- edit salary base -->
                     <div class="col-10 bg-white py-4 ms-5" style="border-radius: 10px; padding-left: 3%; padding-right: 3%; margin-bottom: 5%;">
-                        <div class="col-4 bg-white" style="position: absolute; top: 48em; width: 25rem; text-align: center;">
+                        <div class="col-4 bg-white" style="position: absolute; top: 46em; width: 25rem; text-align: center;">
                             <h3>EDIT BASE SALARY ROLES</h3>
                         </div>
 
@@ -145,7 +145,7 @@
                                 <div class="col-auto">
                                     <input type="text" id="inputPassword6" class="form-control" />
                                 </div>
-                                <div class="col-auto" style="margin-left: 40%;">
+                                <div class="col-auto" style="margin-left: 30rem;">
                                    <button class="btn btn-success">SAVE</button>
                                 </div>
                             </div>
@@ -169,7 +169,7 @@ export default {
     },
     data() {
         return {
-            id:'1000000000',
+            id:'0',
             dataPer:[],
             name:'',
             department:'',
@@ -183,8 +183,10 @@ export default {
     },
     async created() {
         this.access_token = localStorage.getItem("token");
-
-            await axios.get('http://localhost:5257/api/Payroll/idPer/'+ this.id, {
+    },
+    methods: {
+        async getInfo(id){
+            await axios.get('http://localhost:5257/api/Payroll/idPer/'+ id, {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }
@@ -200,7 +202,17 @@ export default {
             .catch((error) => {
             console.error(error)
             })
+        },
+        save_perem(pid){
+            console.log(pid);
+            
+        }
     },
+    watch:{
+        id(newVal){
+            this.getInfo(newVal);
+        }
+    }
 };
 </script>
 

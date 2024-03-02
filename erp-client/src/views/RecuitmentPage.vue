@@ -70,7 +70,7 @@
                                     <td>{{ item.time }}</td>
                                     <td>{{ item.role }}</td>
                                     <td>
-                                        <button class="btn btn-success" @click="OpenCloseFun(true)">
+                                        <button class="btn btn-success" @click="select_appilcantFunc(item);OpenCloseFun(true);">
                                             Finish
                                         </button>
                                     </td>
@@ -95,7 +95,7 @@
                                         <p><b>Role:</b> {{ applicant[0].role }}</p>
                                         <div class="row pb-3">
                                             <div class="col">
-                                                <label for="date"><b>Hire date:</b> <input type="date" class="mx-2"></label>
+                                                <label for="date"><b>Hire date:</b> <input type="date" class="mx-2" v-model="hire_date"></label>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -103,12 +103,12 @@
                                                 <p><b>Status</b></p>
                                                 <div class="form-check form-check-inline mx-3">
                                                     <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                        id="inlineRadio1" value="option1">
+                                                        id="inlineRadio1" :value=true v-model="select_status">
                                                     <label class="form-check-label" for="inlineRadio1">Pass</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                        id="inlineRadio2" value="option2">
+                                                        id="inlineRadio2" :value=false v-model="select_status">
                                                     <label class="form-check-label" for="inlineRadio2">Not pass</label>
                                                 </div>
                                             </div>
@@ -117,7 +117,7 @@
                                     <div class="modal-footer d-flex justify-content-center row">
                                         <button type="button" class="btn btn-secondary mx-4 col-lg-5 col-mb-4 col-sm-3" data-dismiss="modal"
                                                 @click="OpenCloseFun(false)">Close</button>
-                                        <button type="button" class="btn btn-success col-lg-5 col-mb-4 col-sm-3">Submit</button>
+                                        <button type="button" class="btn btn-success col-lg-5 col-mb-4 col-sm-3" @click="announcement(select_status)">Submit</button>
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +147,10 @@ export default {
         return {
             applicant: [],
             appointments: [],
-            OpenClose: false
+            OpenClose: false,
+            hire_date: null,
+            select_appilcant: null,
+            select_status: null
         }
     },
     methods: {
@@ -160,14 +163,56 @@ export default {
         OpenCloseFun(bool) {
             this.OpenClose = bool;
         },
+        select_appilcantFunc(item){
+            this.select_appilcant = item;
+        },
+       async announcement(status){
+            if (this.select_appilcant != null){
+                console.log("Check: ", this.select_appilcant);
+                if (status == true){
+                    if (this.hire_date != null){
+                        this.select_appilcant.hire_date = this.hire_date;
+                    }else{
+                        alert("Someting Error At Hire Date");
+                        this.hire_date = null;
+                        this.select_appilcant = [];
+                        this.OpenCloseFun(false);
+                    }
+                }
+
+                const _env = process.env;
+                const update_Announcement = await axios.put(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Applicant/Announcement/${this.select_appilcant.applicant_id}/${status}`,this.select_appilcant, {
+                    headers:{
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        hrName: localStorage.getItem("hrName")
+                    }
+                });
+                
+                if (update_Announcement.status == 204){
+                    alert("Announcement Seccessfuly");
+                    this.hire_date = null;
+                    this.select_appilcant = [];
+                    this.OpenCloseFun(false);
+                }
+                else if (update_Announcement.status == 400){
+                    alert("Someting Error At Announcement");
+                    this.hire_date = null;
+                    this.select_appilcant = [];
+                    this.OpenCloseFun(false);
+                }else if (update_Announcement.status == 401){
+                    clearStore();
+                }
+
+            }
+        }
 
 
     },
-   async created(){
+    created(){
         const _env = process.env;
         
         if (localStorage.getItem('token')){
-            const applicant_list = await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Applicant/list`, {
+            const applicant_list = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Applicant/list`, {
                 headers:{
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -182,7 +227,7 @@ export default {
                 }
             });
 
-            const appointment_list = await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Appoinment/list`, {
+            const appointment_list = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Appoinment/list`, {
                 headers:{
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }

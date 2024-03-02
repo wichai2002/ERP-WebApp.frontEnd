@@ -66,11 +66,9 @@ export default {
             training_list: []
         }
     },
-   created() {
+    created() {
         const _env = process.env;
-        console.log(`Bearer ${localStorage.getItem("token")}`);
-        const training_list =  axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Training/list`,
-         {
+        const training_list = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Training/list`,{
             headers:{
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -79,8 +77,6 @@ export default {
         training_list.then(item => {
             if (item.status == 200) {
                 this.training_list = item.data
-            }else{
-                console.log(item.status);
             }
         })
     }

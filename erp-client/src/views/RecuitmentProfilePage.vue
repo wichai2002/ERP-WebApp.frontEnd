@@ -193,7 +193,8 @@ export default {
             const id = this.$route.params.id;
             const applicant = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Applicant/` + id, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    hrName: localStorage.getItem("hrName")
                 }
             });
 

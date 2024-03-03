@@ -166,8 +166,8 @@ methods: {
 },
 async created(){
     const urlParams = new URLSearchParams(window.location.search);
-    this.em_id = urlParams.get("emp_id")
-    this.role_id = urlParams.get("role_id")
+     this.em_id = await urlParams.get("emp_id")
+    this.role_id = await urlParams.get("role_id")
 
     this.access_token = localStorage.getItem("token");
 

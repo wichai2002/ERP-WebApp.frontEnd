@@ -131,7 +131,7 @@ export default {
             .then((res) => {
 
                 this.data1 = res.data;
-
+              
             })
             .catch((error) => {
                 console.error(error)
@@ -177,7 +177,7 @@ export default {
                 .then((res) => {
                     const today = new Date();
                     const formattedToday = today.toISOString().substring(0, 10); // วันที่ปัจจุบัน
-                    console.log(res.data)
+                   
                     this.attendata = res.data;
                     // กรองข้อมูลเฉพาะวันที่ปัจจุบัน
                     this.attendatatoday = this.attendata.filter(item => {

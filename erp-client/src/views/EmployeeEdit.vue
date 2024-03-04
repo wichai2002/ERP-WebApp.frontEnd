@@ -42,14 +42,14 @@
                                                 <label for="inputPassword3" class="col-sm-2 col-form-label"
                                                     style="width: 25%;">Department</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control" id="inputEmail3" v-model="department">
+                                                    <input type="text" class="form-control" id="inputEmail3" v-model="department" readonly>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <label for="inputPassword3" class="col-sm-2 col-form-label"
                                                     style="width: 25%;">Roles</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control" id="inputEmail3" v-model="role">
+                                                    <input type="text" class="form-control" id="inputEmail3" v-model="role" readonly>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
@@ -145,14 +145,14 @@
                                                     <label for="inputPassword3" class="col-sm-2 col-form-label px-1"
                                                         style="width: 28%; color: #2ECD99;">Time Start</label>
                                                     <div class="col-sm-8">
-                                                        <input type="time" class="form-control" id="inputPassword3" v-model="time_start">
+                                                        <input type="time" class="form-control" id="inputPassword3" v-model="time_start" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-3 mx-4">
                                                     <label for="inputPassword3" class="col-sm-2 col-form-label"
                                                         style="width: 28%; color: red;">Time End</label>
                                                     <div class="col-sm-8">
-                                                        <input type="time" class="form-control" id="inputPassword3" v-model="time_end">
+                                                        <input type="time" class="form-control" id="inputPassword3" v-model="time_end" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -346,7 +346,7 @@ export default {
             .then(response => {
             console.log(response.data);
             alert("Update status for Roles success");
-            //location.reload();
+            location.reload();
         })
         .catch(error => {
             console.log(error);

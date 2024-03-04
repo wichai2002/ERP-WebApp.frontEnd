@@ -35,11 +35,11 @@
                         <h2 style="font-weight: 700;">Department</h2>
 
                         <div @click="goToDepartment" class="mx-2 my-3 p-2 rounded d-flex align-items-center"
-                            style="cursor: pointer; background-color: #C1EAB3; justify-content: space-around; height: 18%; ">
+                            style="cursor: pointer; background-color: #C1EAB3; justify-content: space-around; height: 14.5%; ">
 
                             <div>
                                 <h4 style="font-size: 21px; font-weight: 700;">FB</h4>
-                                <h4 style="font-size: 21px; font-weight: 700;">(9.00-12.00)</h4>
+                                <h4 style="font-size: 21px; font-weight: 700;">(6.30 - 23.00)</h4>
                             </div>
                             <div>
                                 <h4>{{ fbData.length }}</h4>
@@ -47,33 +47,43 @@
 
                         </div>
                         <div @click="goToDepartment" class="mx-2 my-3 p-2 rounded d-flex align-items-center"
-                            style="cursor: pointer; background-color: #F5D6A8;  justify-content: space-around; height: 18%;">
+                            style="cursor: pointer; background-color: #F5D6A8;  justify-content: space-around; height: 14.5%;">
                             <div>
                                 <h4 style="font-size: 21px; font-weight: 700;">Reception</h4>
-                                <h4 style="font-size: 21px; font-weight: 700;">(8.00-16.00)</h4>
+                                <h4 style="font-size: 21px; font-weight: 700;">(6.00 - 23.30)</h4>
                             </div>
                             <div>
                                 <h4>{{ recepData.length }}</h4>
                             </div>
                         </div>
                         <div @click="goToDepartment" class="mx-2 my-3 p-2 rounded d-flex align-items-center"
-                            style="cursor: pointer; background-color: #DEB6D3;  justify-content: space-around; height: 18%;">
+                            style="cursor: pointer; background-color: #DEB6D3;  justify-content: space-around; height: 14.5%;">
                             <div>
-                                <h4 style="font-size: 21px; font-weight: 700;">House-Keeping</h4>
-                                <h4 style="font-size: 21px; font-weight: 700;">(09.00-18.00)</h4>
+                                <h4 style="font-size: 21px; font-weight: 700;">Kitchen</h4>
+                                <h4 style="font-size: 21px; font-weight: 700;">(05.30 - 23.00)</h4>
                             </div>
                             <div>
-                                <h4 style="">{{ houseData.length }}</h4>
+                                <h4 style="">{{ kitchenData.length }}</h4>
                             </div>
                         </div>
                         <div @click="goToDepartment" class="mx-2 my-3 p-2 rounded d-flex align-items-center"
-                            style="cursor: pointer; background-color: #BBB6DE; justify-content: space-around; height: 18%;">
+                            style="cursor: pointer; background-color: #BBB6DE; justify-content: space-around; height: 14.5%;">
                             <div>
                                 <h4 style="font-size: 21px; font-weight: 700;">Maintenance</h4>
-                                <h4 style="font-size: 21px; font-weight: 700;">(08.00-20.00)</h4>
+                                <h4 style="font-size: 21px; font-weight: 700;">(07.00 - 23.00)</h4>
                             </div>
                             <div style="">
                                 <h4>{{ mainData.length }}</h4>
+                            </div>
+                        </div>
+                        <div @click="goToDepartment" class="mx-2 my-3 p-2 rounded d-flex align-items-center"
+                            style="cursor: pointer; background-color: #42e0f5; justify-content: space-around; height: 14.5%;">
+                            <div>
+                                <h4 style="font-size: 21px; font-weight: 700;">HR</h4>
+                                <h4 style="font-size: 21px; font-weight: 700;">(09.00 - 18.00)</h4>
+                            </div>
+                            <div style="">
+                                <h4>{{ hrData.length }}</h4>
                             </div>
                         </div>
                         <div class="d-flex justify-content-end mx-2">
@@ -111,8 +121,9 @@ export default {
             data2: [],
             fbData: [],
             recepData: [],
-            houseData: [],
+            kitchenData: [],
             mainData: [],
+            hrData: [],
             leavedata: [],
             attendata: [],
             attendatatoday: [],
@@ -148,8 +159,9 @@ export default {
 
                     this.fbData = this.data2.filter(item => item.department_id === 1001);
                     this.recepData = this.data2.filter(item => item.department_id === 1002);
-                    this.houseData = this.data2.filter(item => item.department_id === 1003);
+                    this.kitchenData = this.data2.filter(item => item.department_id === 1003);
                     this.mainData = this.data2.filter(item => item.department_id === 1004);
+                    this.hrData = this.data2.filter(item => item.department_id === 1005);
 
 
                 })

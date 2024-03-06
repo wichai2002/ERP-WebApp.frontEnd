@@ -8,11 +8,12 @@
                 <form @submit.prevent="submitForm">
                     <div class="form-group">
                         <label for="department">Department*</label>
-                        <select id="gender" v-model="gender" required>
-                            <option value="fb">FB</option>
-                            <option value="reception">Reception</option>
-                            <option value="housekeeping">House-Keeping</option>
-                            <option value="maintenance">Maintenance</option>
+                        <select id="gender" v-model="department1" required>
+                            <option value="FB">FB</option>
+                            <option value="Reception">Reception</option>
+                            <option value="Kitchen">Kitchen</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="HR">HR</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -28,8 +29,8 @@
                         <input type="text" id="lastname" v-model="lastname" required>
                     </div>
                     <div class="form-group">
-                        <label for="shortname">Shortname*</label>
-                        <input type="text" id="lastname" v-model="lastname" required>
+                        <label for="shortname">Nickname*</label>
+                        <input type="text" id="nickname" v-model="nickname" required>
                     </div>
                     <div class="form-group">
                         <label for="age">Age*</label>
@@ -45,7 +46,7 @@
                     </div>
                     <div class="form-group">
                         <label for="nationality">Nationality*</label>
-                        <input type="text" id="lastname" v-model="lastname" required>
+                        <input type="text" id="nationality" v-model="nationality" required>
                     </div>
                     <div class="form-group">
                         <label for="birthday">Birth Day*</label>
@@ -55,9 +56,9 @@
                         <label for="education">Education*</label>
                         <input type="text" id="education" v-model="education" required>
                         <label style="margin-top: 2%;" for="education1">Education(Optional)</label>
-                        <input style="margin-top: 2%;" type="text" id="education" v-model="education" required>
+                        <input style="margin-top: 2%;" type="text" id="education2" v-model="education2" required>
                         <label style="margin-top: 2%;" for="education2">Education(Optional)</label>
-                        <input style="margin-top: 2%;" type="text" id="education" v-model="education" required>
+                        <input style="margin-top: 2%;" type="text" id="education3" v-model="education3" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email*</label>
@@ -70,7 +71,7 @@
                     </div>
                     <div class="form-group">
                         <label for="resume">Resume*</label>
-                        <input type="file" id="resume" @change="handleFileUpload" required>
+                        <input type="file" id="resume" @change="handleResumeUpload" required>
                     </div>
                     <div class="form-group">
                         <label for="more">More about me</label>
@@ -84,17 +85,24 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
+
     data() {
         return {
             department: '',
+            department1: '',
             role: '',
             firstname: '',
             lastname: '',
+            nickname: '',
+            nationality: '',
             age: null,
             gender: '',
             birthday: '',
             education: '',
+            education2: '',
+            education3: '',
             email: '',
             phone: '',
             resume: null,
@@ -102,13 +110,34 @@ export default {
         };
     },
     methods: {
-        submitForm() {
-            console.log('Form submitted!');
-        },
         handleFileUpload(event) {
             this.resume = event.target.files[0];
         },
-       
+        async handleResumeUpload(event) {
+            this.resume = event.target.files[0];
+            // Display upload progress or loading spinner if needed
+        },
+        async submitForm() {
+            try {
+              
+                const formData = new FormData();
+                formData.append('file', this.resume);
+                const filename = `${this.firstname}_${this.lastname}_${Date.now()}`;
+
+               axios.put('https://71pv22u6vl.execute-api.ap-southeast-2.amazonaws.com/s3-test/test-s3-20392/' + filename, this.resume,{
+                    header: {
+                        'Access-Control-Allow-Origin': "*"
+                    }
+               }).then(response => {
+                console.log(response);
+               })
+                
+                console.log('Form submitted successfully!');
+            } catch (error) {
+                console.error('Error submitting form:', error);
+            }
+        },
+
     }
 };
 </script>
@@ -118,17 +147,21 @@ label {
     font-weight: 700;
     margin-right: 5%;
 }
+
 body {
     background-color: #263540;
 }
+
 .container {
     border-radius: 20px;
     background-color: #fff;
 }
+
 .form-container {
     margin: 2% auto;
     padding: 2%;
 }
+
 .form-container01 {
     display: flex;
     justify-content: center;
@@ -138,9 +171,11 @@ body {
     padding: 2%;
     align-items: center;
 }
+
 .form-group {
     margin-bottom: 20px;
 }
+
 input[type="text"],
 input[type="number"],
 select,
@@ -154,6 +189,7 @@ input[type="file"] {
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
+
 button {
     background-color: #007bff;
     color: #fff;
@@ -161,9 +197,11 @@ button {
     cursor: pointer;
     margin-bottom: 10%;
 }
+
 button:hover {
     background-color: #0056b3;
 }
+
 @media (max-width: 768px) {
     .form-container {
         padding: 20px 20px;

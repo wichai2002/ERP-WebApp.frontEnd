@@ -21,50 +21,55 @@
                                     <h3 class="text-center" style="font-weight: 800;">EDIT TIME TO WORK</h3>
                                 </div>
 
-                                <div class="row p-2">
-                                   
-                                        <div class="col-2 mx-2"></div>
-                                        <div class="col mx-2">
-                                            <label for="title input">Department
-                                                <input type="text" class="input p-1 mx-3">
-                                            </label>
-                                        </div>
-                                        
-                                        <div class="col mx-2">
-                                            <label for="date">Role
-                                                <select class="form-select form-select-sm p-2"
-                                                    aria-label=".form-select-sm example">
 
-                                                    <option v-for="(item, index) in roles" :key="index"
-                                                        :value="item.role_id">
-                                                        {{ item.position }}
-                                                    </option>
-                                                </select>
+                                    <div class="row p-2 row p-2 justify-content-center align-items-center">
+
+                                        <div class="col-sm-4 col-lg-3 col-mb-5 mx-2">
+                                            <label for="title input">Department
                                             </label>
+                                            <select class="form-select  p-2" aria-label=".form-select-sm example"
+                                                v-model="depart_id">
+
+                                                <option v-for="item in department" :key="item" :value="item.department_id">
+                                                    {{ item.department_name }}
+                                                </option>
+                                            </select>
                                         </div>
-                                        <div class="col-2 mx-2"></div>
-                                    
-                                </div>
+
+                                        <div class="col-sm-4 col-lg-3 col-mb-5 mx-2">
+                                            <label for="date">Role
+                                            </label>
+                                            <select class="form-select  p-2" aria-label=".form-select-sm example" v-model="role_id">
+
+                                                <option v-for="item in role" :key="item" :value="item.ro.role_id">
+                                                    {{ item.ro.position }}
+                                                </option>
+                                            </select>
+                                        </div>
+
+
+                                    </div>
+      
 
                                 <div class="row p-2 mt-2">
                                     <div class="col-2 mx-2"></div>
-                                        <div class="col mx-2">
-                                            <label for="time start">Time Start
-                                                <input type="time" class="input mx-3">
-                                            </label>
-                                        </div>
-                                        <div class="col mx-2">
-                                            <label for="time end">Time End
-                                                <input type="time" class="input mx-3">
-                                            </label>
-                                        </div>
-                                        <div class="col-2 mx-2"></div>
+                                    <div class="col mx-2">
+                                        <label for="time start">Time Start
+                                            <input type="time" class="input mx-3" v-model="time_start">
+                                        </label>
                                     </div>
-                                
+                                    <div class="col mx-2">
+                                        <label for="time end">Time End
+                                            <input type="time" class="input mx-3" v-model="time_end">
+                                        </label>
+                                    </div>
+                                    <div class="col-2 mx-2"></div>
+                                </div>
+
 
                                 <div class="row p-2 my-2">
                                     <div class="col d-flex justify-content-center mx-4">
-                                        <button class="btn btn-md btn-success" style="width: 25%;">SAVE</button>
+                                        <button class="btn btn-md btn-success" style="width: 25%;" @click="savetime(role_id)">SAVE</button>
                                     </div>
                                 </div>
                             </div>
@@ -79,212 +84,101 @@
 
 <script>
 import SideBar from '../components/NavigationBar.vue';
+import axios from 'axios';
 export default {
     components: {
         SideBar
     },
     data() {
         return {
-            roles: [
-                {
-                    "role_id": 101,
-                    "position": "Cook",
-                    "department_id": 1003,
-                    "start_work": "5.30",
-                    "finish_work": "15.30"
-                },
-                {
-                    "role_id": 102,
-                    "position": "Steward",
-                    "department_id": 1003,
-                    "start_work": "6.30",
-                    "finish_work": "15.30"
-                },
-                {
-                    "role_id": 103,
-                    "position": "Chef",
-                    "department_id": 1003,
-                    "start_work": "7.00",
-                    "finish_work": "16.00"
-                },
-                {
-                    "role_id": 104,
-                    "position": "CookHelper",
-                    "department_id": 1003,
-                    "start_work": "5.30",
-                    "finish_work": "15.30"
-                },
-                {
-                    "role_id": 105,
-                    "position": "CleanerCook",
-                    "department_id": 1003,
-                    "start_work": "6.30",
-                    "finish_work": "15.30"
-                },
-                {
-                    "role_id": 111,
-                    "position": "SousChef",
-                    "department_id": 1003,
-                    "start_work": "7.00",
-                    "finish_work": "16.00"
-                },
-                {
-                    "role_id": 112,
-                    "position": "Waiter /Waitress",
-                    "department_id": 1001,
-                    "start_work": "6.00",
-                    "finish_work": "15.00"
-                },
-                {
-                    "role_id": 113,
-                    "position": "FB Manager",
-                    "department_id": 1001,
-                    "start_work": "7.00",
-                    "finish_work": "16.00"
-                },
-                {
-                    "role_id": 114,
-                    "position": "Captain(FB)",
-                    "department_id": 1001,
-                    "start_work": "6.00",
-                    "finish_work": "15.00"
-                },
-                {
-                    "role_id": 115,
-                    "position": "Bartender",
-                    "department_id": 1001,
-                    "start_work": "6.00",
-                    "finish_work": "15.00"
-                },
-                {
-                    "role_id": 116,
-                    "position": "Room Service",
-                    "department_id": 1001,
-                    "start_work": "6.00",
-                    "finish_work": "15.00"
-                },
-                {
-                    "role_id": 117,
-                    "position": "Cashier(FB)",
-                    "department_id": 1001,
-                    "start_work": "6.00",
-                    "finish_work": "15.00"
-                },
-                {
-                    "role_id": 118,
-                    "position": "Maintenance Manager",
-                    "department_id": 1004,
-                    "start_work": "7.00",
-                    "finish_work": "16.00"
-                },
-                {
-                    "role_id": 119,
-                    "position": "Maintenance Engineer",
-                    "department_id": 1004,
-                    "start_work": "7.00",
-                    "finish_work": "16.00"
-                },
-                {
-                    "role_id": 120,
-                    "position": "IT Support",
-                    "department_id": 1004,
-                    "start_work": "7.00",
-                    "finish_work": "16.00"
-                },
-                {
-                    "role_id": 121,
-                    "position": "Reception",
-                    "department_id": 1002,
-                    "start_work": "6.00",
-                    "finish_work": "15.00"
-                },
-                {
-                    "role_id": 122,
-                    "position": "Cook(Night)",
-                    "department_id": 1003,
-                    "start_work": "15.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 123,
-                    "position": "Steward(Night)",
-                    "department_id": 1003,
-                    "start_work": "15.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 124,
-                    "position": "Chef(Night)",
-                    "department_id": 1003,
-                    "start_work": "16.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 125,
-                    "position": "CleanerCook(Night)",
-                    "department_id": 1003,
-                    "start_work": "16.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 126,
-                    "position": "Waiter /Waitress (Night)",
-                    "department_id": 1001,
-                    "start_work": "15.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 127,
-                    "position": "Maintenance Engineer (Night)",
-                    "department_id": 1004,
-                    "start_work": "16.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 128,
-                    "position": "Reception(Night)",
-                    "department_id": 1002,
-                    "start_work": "15.00",
-                    "finish_work": "23.30"
-                },
-                {
-                    "role_id": 129,
-                    "position": "Captain(FB-Night)",
-                    "department_id": 1001,
-                    "start_work": "15.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 130,
-                    "position": "Room Service(Night)",
-                    "department_id": 1001,
-                    "start_work": "15.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 131,
-                    "position": "Bartender(Night)",
-                    "department_id": 1001,
-                    "start_work": "15.00",
-                    "finish_work": "23.00"
-                },
-                {
-                    "role_id": 132,
-                    "position": "IT Support(Night)",
-                    "department_id": 1004,
-                    "start_work": "17.00",
-                    "finish_work": "00.30"
-                },
-                {
-                    "role_id": 133,
-                    "position": "Cashier(FB-Night)",
-                    "department_id": 1001,
-                    "start_work": "16.00",
-                    "finish_work": "23.00"
-                }
-            ],
+            department: [],
+            role: [],
+            access_token: '',
+            depart_id: '',
+            role_id:'',
+            time_start:'',
+            time_end:''
         }
+    },
+    created() {
+        this.access_token = localStorage.getItem("token");
+
+        axios.get('http://localhost:5257/api/Edittime/getdepart', {
+            headers: {
+                'Authorization': `token ${this.access_token}`
+            }
+        })
+            .then((res) => {
+                //console.log(res.data)
+                this.department = res.data;
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    },
+    methods: {
+        select_roles(id) {
+            console.log(id);
+            axios.get('http://localhost:5257/api/Edittime/getrole/' + id, {
+                headers: {
+                    'Authorization': `token ${this.access_token}`
+                }
+            })
+                .then((res) => {
+                    //console.log(res.data)
+                    this.role = res.data;
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
+        },
+        select_time(id){
+            console.log(id);
+            axios.get('http://localhost:5257/api/Edittime/gettime/' + id, {
+                headers: {
+                    'Authorization': `token ${this.access_token}`
+                }
+            })
+                .then((res) => {
+                    console.log(res.data)
+                    this.time = res.data;
+                    this.time_start = res.data.time_start
+                    this.time_end = res.data.time_end
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
+        },
+        savetime(rid){
+            console.log(rid);
+            const time = {id:rid,time_start:this.time_start,time_end:this.time_end};
+            axios.put("http://localhost:5257/api/Edittime/updatetime/",time, {
+                headers:{
+                    'Authorization': `token ${this.access_token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+            console.log(response.data);
+            alert("Update status for Roles success");
+            location.reload();
+        })
+        .catch(error => {
+            console.log(error);
+            alert("Failed to update status for Roles. Please try again later."); // แจ้งเตือนให้ผู้ใช้ทราบ
+        });
+        }
+    },
+    watch: {
+        depart_id(newVal) {
+            this.select_roles(newVal)
+        },
+        role_id(newVal){
+            this.select_time(newVal)
+        }
+
     }
+
 
 }
 </script>

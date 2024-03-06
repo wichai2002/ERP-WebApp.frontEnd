@@ -32,19 +32,19 @@
                                     <th scope="col">examining</th>
                                 </tr>
                             </thead>
-                            <tbody v-for="item in data1" :key="item">
-                                <tr v-if="item._per.status == 0">
+                            <tbody v-for="(item,index) in data1" :key="item">
+                                <tr >
                                         <td><a :href="'./employeeleaveday?emp_id='+item._gen.emp_gen_id+'&role_id='+item._gen.role_id" style="color: black; text-decoration: none;">{{item._gen.emp_gen_id}}</a></td>
                                         <td>{{item._gen.first_name}} {{item._gen.last_name}}</td>
                                         <td>{{item.role_name}}</td>
                                         <td>{{item._per.type}}</td>
-                                        <td>{{item._per.start_leave}} - {{item._per.end_leave}}</td>
+                                        <td>{{date_s[index]}} - {{date_ee[index]}}</td>
                                         <td>
-                                            <button class="btn btn-success btn-sm" style="margin-right: 3%; width: 20%;" @click="confirm(item.employee_id)">Yes</button>
-                                            <button class="btn btn-danger btn-sm" style="width: 20%;" @click="none_confirm(item.employee_id)">No</button>
+                                            <button class="btn btn-success btn-sm" style="margin-right: 3%; width: 24%;" @click="confirm(item._gen.emp_gen_id,item._per.leave_req_number,item._per.type)">Yes</button>
+                                            <button class="btn btn-danger btn-sm" style="width: 24%;" @click="none_confirm(item._gen.emp_gen_id,item._per.leave_req_number,item._per.type)">No</button>
                                         </td>
                                 </tr>
-
+ 
 
 
                             </tbody>
@@ -105,19 +105,59 @@ export default {
             data1:[],
             access_token:'',
             data2:[],
-            data3:[]
+            cc: 0,
+            date_ee:[],
+            date_s:[]
+
         }
     },
     methods: {
-        confirm(sid){
-            console.log(sid);
+        confirm(sid,rid,typ){
+            
+            
+            if (typ == 'sick_leave'){
+                this.cc = 4
+            }
+            else if(typ=='personal_leave'){
+                this.cc = 5
+            }
+            else{
+                this.cc = 6
+            }
+            console.log(sid,rid,typ,this.cc);
 
-
+            axios.put('http://localhost:5257/api/Leave/confirm/'+sid+'/'+rid+'/'+this.cc+'/1', {
+            headers: {
+                'Authorization': `token ${this.access_token}`
+            }
+            }.then(response => {
+            console.log(response);
+            alert("Update leave for employee success");
+            location.reload();
+            })
+            .catch(error => {
+                console.log(error);
+                alert("Failed to update leave for employee. Please try again later."); // แจ้งเตือนให้ผู้ใช้ทราบ
+            }))
+            
         },
-        none_confirm(sid){
+        none_confirm(sid,rid,typ){
             console.log(sid)
+            axios.put('http://localhost:5257/api/Leave/confirm/'+sid+'/'+rid+'/'+typ+'/2', {
+            headers: {
+                'Authorization': `token ${this.access_token}`
+            }
+            }.then(response => {
+            console.log(response);
+            alert("Update leave for employee success");
+            location.reload();
+            })
+            .catch(error => {
+                console.log(error);
+                alert("Failed to update leave for employee. Please try again later."); // แจ้งเตือนให้ผู้ใช้ทราบ
+            }))
 
-        }
+            }
     },
     async created(){
 
@@ -130,15 +170,15 @@ export default {
             }
             })
             .then((res) => {
-            console.log(res.data)
-            this.data1 = res.data;
+            console.log(res.data.listResult1)
+            this.data1 = res.data.listResult1;
+            this.date_s  = res.data.date1;
+            this.date_ee = res.data.date2;
+            console.log(this.date_ee);
             })
             .catch((error) => {
             console.error(error)
             })
-
-
-
 
     
 }

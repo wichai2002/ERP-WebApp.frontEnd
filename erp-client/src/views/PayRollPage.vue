@@ -20,7 +20,7 @@
                 <div class="row">
                     <!-- content here -->
 
-                    <div class="col-12 p-4">
+                    <div class="col-12 p-4" style="overflow-x: auto; overflow-y: auto; max-height: 40rem; margin-bottom: 5rem;">     
                         <table class="table " style="text-align: center;">
                             <thead class="table-dark table-active"> 
                                 <tr>
@@ -33,13 +33,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                    <tr v-for="item in payroll" :key="item" style="border: 1px solid black;">
-                                        <td>{{item.emp_id}}</td>
-                                        <td>{{item.Name}}</td>
-                                        <td>{{item.Role}}</td>
+                                    <tr v-for="item in data_all" :key="item" style="border: 1px solid black;">
+                                        <td>{{item.id}}</td>
+                                        <td>{{item.fullname}}</td>
+                                        <td>{{item.position}}</td>
                                         <td>{{ item.pay_date }}</td>
-                                        <td>{{item.base_salary}}</td>
-                                        <td>{{item.salary}}</td>
+                                        <td>{{item.baseSalary}}</td>
+                                        <td>{{item.salaryPeo}}</td>
                                     </tr>
                                 <tr>
                                         <td></td>
@@ -58,7 +58,7 @@
                         </table>
                     </div>
 
-                    <div class="col-11 bg-white  mx-4 py-4" style="border-radius: 5px;">
+                    <div class="col-11 bg-white  mx-4 py-4"  style="overflow-x: auto; overflow-y: auto; max-height: 40rem; margin-bottom: 5rem; border-radius: 5px;">
                         <div class="mx-2">
                             <h4><b>PAYROLL AVERAGE</b></h4>
                         </div>
@@ -70,21 +70,19 @@
                                         <th scope="col">ROLES</th>
                                         <th scope="col">AMOUNT</th>
                                         <th scope="col">SALARY BASE</th>
-                                        <th scope="col">DISCOUNT</th>
                                         <th scope="col">MAX SALARY</th>
                                         <th scope="col">MIN SALARY</th>
                                         <th scope="col">SALARY</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        <tr v-for="item in role_pay" :key="item" style="border: opx solid white;">
-                                            <td>{{item.role}}</td>
-                                            <td>{{item.Amount}}</td>
-                                            <td>{{item.salary_base}}</td>
-                                            <td style="color: red;">{{ item.discount }}</td>
-                                            <td>{{item.max_salary}}</td>
-                                            <td>{{item.min_salary}}</td>
-                                            <td>{{item.salary}}</td>
+                                        <tr v-for="item in data3" :key="item" style="border: opx solid white;">
+                                            <td>{{item.roleName}}</td>
+                                            <td>{{item.countPeo}}</td>
+                                            <td>{{item.baseSalary}}</td>
+                                            <td>{{item.maxSalary}}</td>
+                                            <td>{{item.minSalary}}</td>
+                                            <td>{{item.sumSalary}}</td>
                                         </tr>
                                 </tbody>
                         </table>
@@ -100,6 +98,7 @@
 
 <script>
 import SideBar from '../components/NavigationBar.vue';
+import axios from 'axios';
 export default {
     components: {
         SideBar
@@ -187,8 +186,29 @@ export default {
                     salary:32000
                 }
             ],
+            data_all:[],
+            data3:[],
+            access_token:'',
         }
-    }
+        
+    },
+    async created() {
+            this.access_token = localStorage.getItem("token");
+
+            axios.get('http://localhost:5257/api/Payroll', {
+            headers: {
+                'Authorization': `token ${this.access_token}`
+            }
+            })
+            .then((res) => {
+            console.log(res.data)
+            this.data_all = res.data.all;
+            this.data3 = res.data.count;
+            })
+            .catch((error) => {
+            console.error(error)
+            })
+        },
 }
 </script>
 

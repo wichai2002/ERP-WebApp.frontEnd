@@ -9,8 +9,6 @@
 
             <div class="row">
                 <!-- content here -->
-                {{ date_day }}
-                {{ diff_day }}
                 <!-- block detail -->
                 <div class="row" style="margin-left: 1%;">
  
@@ -83,12 +81,12 @@
                                 <th scope="col">SUMMARY_TYPE</th>
                             </tr>
                         </thead>
-                        <tbody v-for="item in leave" :key="item">
-                            <tr >
+                        <tbody v-for="(item,index) in date_day.le" :key="item">
+                            <tr>
                                     <td>{{item.type}}</td>
-                                    <td>{{item.start_date}}</td>
-                                    <td>{{item.end_date}}</td>
-                                    <td>{{item.summary_type}}</td>
+                                    <td>{{date_day.start_leave[index]}}</td>
+                                    <td>{{date_day.end_leave[index]}}</td>
+                                    <td>{{date_day.diff[index]}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -168,8 +166,8 @@ methods: {
 },
 async created(){
     const urlParams = new URLSearchParams(window.location.search);
-    this.em_id = urlParams.get("emp_id")
-    this.role_id = urlParams.get("role_id")
+     this.em_id = await urlParams.get("emp_id")
+    this.role_id = await urlParams.get("role_id")
 
     this.access_token = localStorage.getItem("token");
 
@@ -200,7 +198,7 @@ async created(){
             })
 
 
-        axios.get('http://localhost:5257/api/Leave/department/'+this.role_id, {
+        await axios.get('http://localhost:5257/api/Leave/department/'+this.role_id, {
                 headers: {
                     'Authorization': `token ${this.access_token}`
                 }
@@ -220,14 +218,17 @@ async created(){
             })
             .then((res) => {
             
-            this.date_day = res.data[0];
-            console.log(this.data2)
+            this.date_day = res.data;
+            console.log(res.data);
             })
             .catch((error) => {
-            console.error(error)
+                console.log(error);
             })
 
+
         this.diff_day = this.date_day.start_leave - this.date_day.end_leave
+
+    
 }
 
 }

@@ -41,22 +41,22 @@
                                     <th scope="col">Status</th>
                                 </tr>
                             </thead>
-                            <tbody v-for="item in em_info" :key="item">
-                                <tr v-if="sta == 0" v-show="item.status == 'Actived'">
-                                        <td><a :href="'./employeeedit?emp_id='+item.employee_id" style="color: black; text-decoration: none;">{{item.employee_id}}</a></td>
-                                        <td>{{item.employee_name}}</td>
-                                        <td>{{item.Email}}</td>
-                                        <td>{{item.employee_role}}</td>
-                                        <td>{{item.date}}</td>
-                                        <td style="color: #2ECD99;">{{ item.status }}</td>
+                            <tbody v-for="item in data1" :key="item">
+                                <tr v-if="sta == 0" v-show="item.status == 1">
+                                        <td><a :href="'./employeeedit?emp_id='+item.emp_id" style="color: black; text-decoration: none;">{{item.emp_id}}</a></td>
+                                        <td>{{item.fullname}}</td>
+                                        <td>{{item.email}}</td>
+                                        <td>{{item.role_name}}</td>
+                                        <td>{{item.join_date}}</td>
+                                        <td style="color: #2ECD99;">Active</td>
                                 </tr>
-                                <tr v-else  v-show="item.status == 'Termination'">
-                                        <td><a :href="'./employeeedit?emp_id='+item.employee_id" style="color: black; text-decoration: none;">{{item.employee_id}}</a></td>
-                                        <td>{{item.employee_name}}</td>
-                                        <td>{{item.Email}}</td>
-                                        <td>{{item.employee_role}}</td>
-                                        <td>{{item.date}}</td>
-                                        <td style="color: red;">{{ item.status }}</td>
+                                <tr v-else  v-show="item.status == 0">
+                                        <td><a :href="'./employeeedit?emp_id='+item.emp_id" style="color: black; text-decoration: none;">{{item.emp_id}}</a></td>
+                                        <td>{{item.fullname}}</td>
+                                        <td>{{item.email}}</td>
+                                        <td>{{item.role_name}}</td>
+                                        <td>{{item.join_date}}</td>
+                                        <td style="color: red;">Termination</td>
                                 </tr>
 
 
@@ -73,6 +73,7 @@
 
 <script>
 import SideBar from '../components/NavigationBar.vue';
+import  axios from "axios";
 export default {
     components: {
         SideBar
@@ -114,9 +115,27 @@ export default {
                 }
             ],
             check:0,
-            sta:0
+            sta:0,
+            access_token:'',
+            data1:[]
         }
+    },created() {
+        this.access_token = localStorage.getItem("token");
+
+        axios.get('http://localhost:5257/api/Emp_general_information/emp_list', {
+            headers: {
+                'Authorization': `token ${this.access_token}`
+            }
+            })
+            .then((res) => {
+            console.log(res.data)
+            this.data1 = res.data;
+            })
+            .catch((error) => {
+            console.error(error)
+            })
     },
+    
     methods: {
         change_status(){
             this.check += 1;

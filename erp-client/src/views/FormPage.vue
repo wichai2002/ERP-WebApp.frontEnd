@@ -8,36 +8,37 @@
                 <form @submit.prevent="submitForm">
                     <div class="form-group">
                         <label for="department">Department*</label>
-                        <select id="gender" v-model="gender" required>
-                            <option value="fb">FB</option>
-                            <option value="reception">Reception</option>
-                            <option value="housekeeping">House-Keeping</option>
-                            <option value="maintenance">Maintenance</option>
+                        <select id="gender" v-model="department1">
+                            <option value="FB">FB</option>
+                            <option value="Reception">Reception</option>
+                            <option value="Kitchen">Kitchen</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="HR">HR</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="role">Role*</label>
-                        <input type="text" id="role" v-model="role" required>
+                        <input type="text" id="role" v-model="role">
                     </div>
                     <div class="form-group">
                         <label for="firstname">Firstname*</label>
-                        <input type="text" id="firstname" v-model="firstname" required>
+                        <input type="text" id="firstname" v-model="firstname">
                     </div>
                     <div class="form-group">
                         <label for="lastname">Lastname*</label>
-                        <input type="text" id="lastname" v-model="lastname" required>
+                        <input type="text" id="lastname" v-model="lastname">
                     </div>
                     <div class="form-group">
-                        <label for="shortname">Shortname*</label>
-                        <input type="text" id="lastname" v-model="lastname" required>
+                        <label for="shortname">Nickname*</label>
+                        <input type="text" id="nickname" v-model="nickname">
                     </div>
                     <div class="form-group">
                         <label for="age">Age*</label>
-                        <input type="number" id="age" v-model="age" required>
+                        <input type="number" id="age" v-model="age">
                     </div>
                     <div class="form-group">
                         <label for="gender">Gender*</label>
-                        <select id="gender" v-model="gender" required>
+                        <select id="gender" v-model="gender">
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                             <option value="other">Other</option>
@@ -45,32 +46,32 @@
                     </div>
                     <div class="form-group">
                         <label for="nationality">Nationality*</label>
-                        <input type="text" id="lastname" v-model="lastname" required>
+                        <input type="text" id="nationality" v-model="nationality">
                     </div>
                     <div class="form-group">
                         <label for="birthday">Birth Day*</label>
-                        <input type="date" id="birthday" v-model="birthday" required>
+                        <input type="date" id="birthday" v-model="birthday">
                     </div>
                     <div class="form-group">
                         <label for="education">Education*</label>
-                        <input type="text" id="education" v-model="education" required>
+                        <input type="text" id="education" v-model="education">
                         <label style="margin-top: 2%;" for="education1">Education(Optional)</label>
-                        <input style="margin-top: 2%;" type="text" id="education" v-model="education" required>
+                        <input style="margin-top: 2%;" type="text" id="education2" v-model="education2">
                         <label style="margin-top: 2%;" for="education2">Education(Optional)</label>
-                        <input style="margin-top: 2%;" type="text" id="education" v-model="education" required>
+                        <input style="margin-top: 2%;" type="text" id="education3" v-model="education3">
                     </div>
                     <div class="form-group">
                         <label for="email">Email*</label>
-                        <input type="email" id="email" v-model="email" required>
+                        <input type="email" id="email" v-model="email">
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone number*</label>
-                        <input type="tel" id="phone" v-model="phone" required><br>
+                        <input type="tel" id="phone" v-model="phone"><br>
                         <span v-if="phone && phone.length !== 10" style="color: red;">Please enter 10 digits.</span>
                     </div>
                     <div class="form-group">
                         <label for="resume">Resume*</label>
-                        <input type="file" id="resume" @change="handleFileUpload" required>
+                        <input type="file" id="resume" @change="handleResumeUpload">
                     </div>
                     <div class="form-group">
                         <label for="more">More about me</label>
@@ -84,17 +85,24 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
+
     data() {
         return {
             department: '',
+            department1: '',
             role: '',
             firstname: '',
             lastname: '',
+            nickname: '',
+            nationality: '',
             age: null,
             gender: '',
             birthday: '',
             education: '',
+            education2: '',
+            education3: '',
             email: '',
             phone: '',
             resume: null,
@@ -102,13 +110,33 @@ export default {
         };
     },
     methods: {
-        submitForm() {
-            console.log('Form submitted!');
-        },
         handleFileUpload(event) {
             this.resume = event.target.files[0];
         },
-       
+        async handleResumeUpload(event) {
+            this.resume = event.target.files[0];
+            // Display upload progress or loading spinner if needed
+        },
+        async submitForm() {
+            try {
+
+                // const formData = new FormData();
+                // formData.append('file', this.resume);
+                const filename = `${this.firstname}_${this.lastname}_${Date.now()}`;
+
+                 await  axios.put('https://71pv22u6vl.execute-api.ap-southeast-2.amazonaws.com/s3-test/test-s3-20392/' + filename, this.resume,{
+                   }).then(response => {
+                    console.log(response.status);
+                   }).catch(error =>{
+                    console.log(error);
+                   })
+                
+                console.log('Form submitted successfully!');
+            } catch (error) {
+                console.error('Error submitting form:', error);
+            }
+        },
+
     }
 };
 </script>
@@ -118,17 +146,21 @@ label {
     font-weight: 700;
     margin-right: 5%;
 }
+
 body {
     background-color: #263540;
 }
+
 .container {
     border-radius: 20px;
     background-color: #fff;
 }
+
 .form-container {
     margin: 2% auto;
     padding: 2%;
 }
+
 .form-container01 {
     display: flex;
     justify-content: center;
@@ -138,9 +170,11 @@ body {
     padding: 2%;
     align-items: center;
 }
+
 .form-group {
     margin-bottom: 20px;
 }
+
 input[type="text"],
 input[type="number"],
 select,
@@ -154,6 +188,7 @@ input[type="file"] {
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
+
 button {
     background-color: #007bff;
     color: #fff;
@@ -161,9 +196,11 @@ button {
     cursor: pointer;
     margin-bottom: 10%;
 }
+
 button:hover {
     background-color: #0056b3;
 }
+
 @media (max-width: 768px) {
     .form-container {
         padding: 20px 20px;

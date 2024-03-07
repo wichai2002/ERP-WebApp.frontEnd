@@ -168,10 +168,10 @@ async created(){
     const urlParams = new URLSearchParams(window.location.search);
      this.em_id = await urlParams.get("emp_id")
     this.role_id = await urlParams.get("role_id")
-
+    const _env = process.env;
     this.access_token = localStorage.getItem("token");
-
-        axios.get('http://localhost:5257/api/Leave/day/'+this.em_id, {
+    // ${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}  
+        axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/day/`+this.em_id, {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }
@@ -184,7 +184,7 @@ async created(){
             console.error(error)
             })
 
-        axios.get('http://localhost:5257/api/Leave/dayper/'+this.em_id, {
+        axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/dayper/`+this.em_id, {
         headers: {
                 'Authorization': `token ${this.access_token}`
             }
@@ -198,7 +198,7 @@ async created(){
             })
 
 
-        await axios.get('http://localhost:5257/api/Leave/department/'+this.role_id, {
+        await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/department/`+this.role_id, {
                 headers: {
                     'Authorization': `token ${this.access_token}`
                 }
@@ -211,7 +211,7 @@ async created(){
             })
 
 
-        axios.get('http://localhost:5257/api/Leave/diffdate/'+this.em_id ,{
+        axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/diffdate/`+this.em_id ,{
             headers: {
                 'Authorization': `token ${this.access_token}`
                 }

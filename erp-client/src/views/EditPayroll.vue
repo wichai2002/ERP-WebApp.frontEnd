@@ -130,7 +130,11 @@ export default {
     },
     methods: {
         async getInfo(id){
-            await axios.get('http://localhost:5257/api/Payroll/idPer/'+ id, {
+            const _env = process.env;
+
+            // ${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}
+
+            await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Payroll/idPer/`+ id, {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }
@@ -149,7 +153,8 @@ export default {
         },
         async save_perem(pid){
             console.log(pid);
-            await axios.put("http://localhost:5257/api/Payroll/updateEm/" + pid + "/" + this.salary)
+            const _env = process.env;
+            await axios.put(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Payroll/updateEm/` + pid + "/" + this.salary)
         .then(response => {
             console.log(response);
             alert("Update payroll for employee success");
@@ -162,7 +167,8 @@ export default {
         },
         async get_role(rid){
             console.log(rid);
-            await axios.get('http://localhost:5257/api/Payroll/getrole/'+ this.role2, {
+            const _env = process.env;
+            await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Payroll/getrole/`+ this.role2, {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }
@@ -178,7 +184,8 @@ export default {
             })
         },
          save_role(){
-             axios.put("http://localhost:5257/api/Payroll/updatepayRole/" + this.departmentId + "/" + this.salary_base)
+            const _env = process.env;
+             axios.put(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Payroll/updatepayRole/` + this.departmentId + "/" + this.salary_base)
         .then(response => {
             console.log(response);
             alert("Update payroll for Roles success");

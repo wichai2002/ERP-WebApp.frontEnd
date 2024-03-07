@@ -14,11 +14,13 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-    <div class="input-group" style="margin-left: 2%;">
-        <input type="text" class="form-control form-control-sm col-8" v-model="searchTerm" placeholder="Search Name....">
-        <input type="date" v-model="selectedDate" class="form-control form-control-sm  col" placeholder="Select Date">
-    </div>
-</div>
+                        <div class="input-group" style="margin-left: 2%;">
+                            <input type="text" class="form-control form-control-sm col-8" v-model="searchTerm"
+                                placeholder="Search Name....">
+                            <input type="date" v-model="selectedDate" class="form-control form-control-sm  col"
+                                placeholder="Select Date">
+                        </div>
+                    </div>
 
 
                     <div class="col-6 d-flex justify-content-end" style="margin-right: 0%;">
@@ -41,17 +43,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-    <tr v-for="(item, index) in filteredEmployees" :key="index">
-        <td>{{ formatDate(item.att_date) }}</td>
-        <td>{{ item.emp_firstname }} {{ item.emp_lastname }}</td>
-        <td>{{ item.role }}</td>
-        <td>{{ formatTime(item.att_time_in) }}</td>
-        <td>{{ formatTime(item.att_time_out) }}</td>
-    </tr>
-</tbody>
+                                    <tr v-for="(item, index) in filteredEmployees" :key="index">
+                                        <td>{{ formatDate(item.att_date) }}</td>
+                                        <td>{{ item.emp_firstname }} {{ item.emp_lastname }}</td>
+                                        <td>{{ item.role }}</td>
+                                        <td>{{ formatTime(item.att_time_in) }}</td>
+                                        <td>{{ formatTime(item.att_time_out) }}</td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
-                        <div class="col" style="margin-top: 2%;  max-height: 45%; background-color: aliceblue; position: relative;">
+                        <div class="col"
+                            style="margin-top: 2%;  max-height: 45%; background-color: aliceblue; position: relative;">
                             <select class="form-select form-select-sm p-2" aria-label=".form-select-sm example"
                                 v-model="selectedMonth" style="width: 10%; position: relative; left: 90%;">
                                 <option disabled value="">Select a month</option>
@@ -60,45 +63,47 @@
                                 </option>
                             </select>
                             <div>
-                                <canvas  id="myChart"></canvas>
+                                <canvas id="myChart"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <modal class="col" v-if="isAddModalVisible" @close="toggleAddModal">
+                <div class="row modal-content">
+                    <form @submit.prevent="addNewData" class="form-container">
+                        <div class="form-group">
+                            <label for="newEmpId">Employee ID:</label>
+                            <input type="text" style="width: 100%;" class="form-control" id="newEmpId"
+                                v-model="newEmpId">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newDate">Date:</label>
+                            <input type="date" class="form-control" id="newDate" v-model="newDate">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newTimein">Time in:</label>
+                            <input type="time" class="form-control" id="newTimein" v-model="newTimein">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newTimeout">Time out:</label>
+                            <input type="time" class="form-control" id="newTimeout" v-model="newTimeout">
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" @click="toggleAddModal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </modal>
         </div>
-
     </div>
-    <modal class="col" v-if="isAddModalVisible" @close="toggleAddModal">
-    <div class="row modal-content">
-        <form @submit.prevent="addNewData" class="form-container">
-            <div class="form-group">
-                <label for="newEmpId">Employee ID:</label>
-                <input type="text" style="width: 100%;" class="form-control" id="newEmpId" v-model="newEmpId">
-            </div>
 
-            <div class="form-group">
-                <label for="newDate">Date:</label>
-                <input type="date" class="form-control" id="newDate" v-model="newDate">
-            </div>
-
-            <div class="form-group">
-                <label for="newTimein">Time in:</label>
-                <input type="time" class="form-control" id="newTimein" v-model="newTimein">
-            </div>
-
-            <div class="form-group">
-                <label for="newTimeout">Time out:</label>
-                <input type="time" class="form-control" id="newTimeout" v-model="newTimeout">
-            </div>
-
-            <div class="button-group">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="button" class="btn btn-secondary" @click="toggleAddModal">Cancel</button>
-            </div>
-        </form>
-    </div>
-</modal>
 
 
 </template>
@@ -183,8 +188,9 @@ export default {
 
 
         this.access_token = localStorage.getItem("token");
-
-        axios.get('http://localhost:5257/api/Attendance/attenemp', {
+        const _env = process.env;
+        
+        axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Attendance/attenemp`, {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }
@@ -201,29 +207,29 @@ export default {
     },
     computed: {
         filteredEmployees() {
-        // Filtering employees based on search term, name, and role
-        const filteredList = this.attendata.filter(employee =>
-            ((employee.emp_firstname.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                employee.emp_lastname.toLowerCase().includes(this.searchTerm.toLowerCase())) ||
-                employee.role.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
-            (this.selectedDate === '' || moment(employee.att_date, "YYYY-MM-DD").format("YYYY-MM-DD") === this.selectedDate)
-        );
+            // Filtering employees based on search term, name, and role
+            const filteredList = this.attendata.filter(employee =>
+                ((employee.emp_firstname.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+                    employee.emp_lastname.toLowerCase().includes(this.searchTerm.toLowerCase())) ||
+                    employee.role.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
+                (this.selectedDate === '' || moment(employee.att_date, "YYYY-MM-DD").format("YYYY-MM-DD") === this.selectedDate)
+            );
 
-        // Sort the filtered list by date and time
-        return filteredList.sort((a, b) => {
-            // Compare dates
-            const dateA = moment(a.att_date, "YYYY-MM-DD").format("YYYY-MM-DD");
-            const dateB = moment(b.att_date, "YYYY-MM-DD").format("YYYY-MM-DD");
+            // Sort the filtered list by date and time
+            return filteredList.sort((a, b) => {
+                // Compare dates
+                const dateA = moment(a.att_date, "YYYY-MM-DD").format("YYYY-MM-DD");
+                const dateB = moment(b.att_date, "YYYY-MM-DD").format("YYYY-MM-DD");
 
-            if (dateA !== dateB) {
-                return dateA.localeCompare(dateB);
-            }
+                if (dateA !== dateB) {
+                    return dateA.localeCompare(dateB);
+                }
 
-            // If dates are equal, compare times
-            return moment(a.att_time_in, "HH:mm").diff(moment(b.att_time_in, "HH:mm"));
-        });
-    }
-},
+                // If dates are equal, compare times
+                return moment(a.att_time_in, "HH:mm").diff(moment(b.att_time_in, "HH:mm"));
+            });
+        }
+    },
     watch: {
         selectedMonth: function (newMonthId) {
             if (newMonthId !== '') {
@@ -245,7 +251,9 @@ export default {
                 time_out: this.newTimeout
             };
 
-            axios.post('http://localhost:5257/api/Attendance', newData, {
+            const _env = process.env;
+
+            axios.post(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Attendance`, newData, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `token ${this.access_token}`
@@ -408,5 +416,4 @@ thead {
 .btn {
     width: 40%;
 }
-
 </style>

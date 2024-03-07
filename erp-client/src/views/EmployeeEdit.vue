@@ -335,9 +335,12 @@ export default {
     },
     methods: {
         summit_form(){
+            const _env = process.env;
             const id = {id: this.emp_id, department: this.department,role:this.role,phone:this.phone,nation:this.nation,first_name:this.first_name,last_name:this.last_name,nick_name:this.nickname,email:this.email,address:this.address,married:this.marry,children:this.child,account_number:this.account_id,sickleave:this.sick_leave,personalleave:this.per_leave,vacationleave:this.va_leave,time_start:this.time_start,time_end:this.time_end};
-            //const aa = {first_name:this.first_name,last_name:this.last_name,emp_gen_id:1} 
-            axios.put("http://localhost:5257/api/Emp_general_information/update_emp/",id, {
+
+            // ${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}
+
+            axios.put(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Emp_general_information/update_emp/`,id, {
                 headers:{
                     'Authorization': `token ${this.access_token}`,
                     'Content-Type': 'application/json'
@@ -345,17 +348,19 @@ export default {
             })
             .then(response => {
             console.log(response.data);
-            alert("Update status for Roles success");
+            alert(`Update status for Roles success`);
             location.reload();
         })
         .catch(error => {
             console.log(error);
-            alert("Failed to update status for Roles. Please try again later."); // แจ้งเตือนให้ผู้ใช้ทราบ
+            alert(`Failed to update status for Roles. Please try again later.`); // แจ้งเตือนให้ผู้ใช้ทราบ
         });
         },
+
         reject(eid){
-            console.log(eid);
-            axios.put("http://localhost:5257/api/Emp_general_information/reject/" + eid, {
+            const _env = process.env;
+            
+            axios.put(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Emp_general_information/reject/` + eid, {
                 headers:{
                     'Authorization': `token ${this.access_token}`
                 }
@@ -375,8 +380,8 @@ export default {
         const urlParams = new URLSearchParams(window.location.search);
         this.emp_id = await urlParams.get("emp_id")
         this.access_token = localStorage.getItem("token");
-
-        axios.get('http://localhost:5257/api/Emp_general_information/em_info/'+this.emp_id, {
+        const _env = process.env;
+        axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Emp_general_information/em_info/`+this.emp_id, {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }

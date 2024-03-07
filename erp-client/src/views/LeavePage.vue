@@ -114,7 +114,8 @@ export default {
     methods: {
         confirm(sid,rid,typ){
             
-            
+                // ${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}  
+            const _env = process.env;
             if (typ == 'sick_leave'){
                 this.cc = 4
             }
@@ -126,7 +127,7 @@ export default {
             }
             console.log(sid,rid,typ,this.cc);
 
-            axios.put('http://localhost:5257/api/Leave/confirm/'+sid+'/'+rid+'/'+this.cc+'/1', {
+            axios.put(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/confirm/`+sid+'/'+rid+'/'+this.cc+'/1', {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }
@@ -143,7 +144,8 @@ export default {
         },
         none_confirm(sid,rid,typ){
             console.log(sid)
-            axios.put('http://localhost:5257/api/Leave/confirm/'+sid+'/'+rid+'/'+typ+'/2', {
+            const _env = process.env;
+            axios.put(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/confirm/`+sid+'/'+rid+'/'+typ+'/2', {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }
@@ -160,11 +162,9 @@ export default {
             }
     },
     async created(){
-
-
         this.access_token = localStorage.getItem("token");
-
-        axios.get('http://localhost:5257/api/Leave/check', {
+        const _env = process.env;
+        axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/check`, {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }

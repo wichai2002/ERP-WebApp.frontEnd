@@ -194,8 +194,8 @@ export default {
     },
     async created() {
             this.access_token = localStorage.getItem("token");
-
-            axios.get('http://localhost:5257/api/Payroll', {
+            const _env = process.env;
+            axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Payroll`, {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }

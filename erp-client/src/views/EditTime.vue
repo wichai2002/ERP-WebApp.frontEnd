@@ -102,8 +102,9 @@ export default {
     },
     created() {
         this.access_token = localStorage.getItem("token");
-
-        axios.get('http://localhost:5257/api/Edittime/getdepart', {
+        const _env = process.env;
+// ${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}
+        axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Edittime/getdepart`, {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }
@@ -119,7 +120,8 @@ export default {
     methods: {
         select_roles(id) {
             console.log(id);
-            axios.get('http://localhost:5257/api/Edittime/getrole/' + id, {
+            const _env = process.env;
+            axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Edittime/getrole/` + id, {
                 headers: {
                     'Authorization': `token ${this.access_token}`
                 }
@@ -134,7 +136,8 @@ export default {
         },
         select_time(id){
             console.log(id);
-            axios.get('http://localhost:5257/api/Edittime/gettime/' + id, {
+            const _env = process.env;
+            axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Edittime/gettime/` + id, {
                 headers: {
                     'Authorization': `token ${this.access_token}`
                 }
@@ -151,8 +154,9 @@ export default {
         },
         savetime(rid){
             console.log(rid);
+            const _env = process.env;
             const time = {id:rid,time_start:this.time_start,time_end:this.time_end};
-            axios.put("http://localhost:5257/api/Edittime/updatetime/",time, {
+            axios.put(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Edittime/updatetime/`,time, {
                 headers:{
                     'Authorization': `token ${this.access_token}`,
                     'Content-Type': 'application/json'

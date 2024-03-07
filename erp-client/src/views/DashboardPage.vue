@@ -131,10 +131,10 @@ export default {
     },
     async created() {
 
-
+// ${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}
         this.access_token = localStorage.getItem("token");
-
-        axios.get('http://localhost:5257/api/Emp_general_information', {
+        const _env = process.env;
+        axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Emp_general_information`, {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }
@@ -148,7 +148,7 @@ export default {
                 console.error(error)
             }),
 
-            axios.get('http://localhost:5257/api/Emp_general_information/withRoles', {
+            axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Emp_general_information/withRoles`, {
                 headers: {
                     'Authorization': `token ${this.access_token}`
                 }
@@ -168,7 +168,7 @@ export default {
                 .catch((error) => {
                     console.error(error)
                 }),
-            axios.get('http://localhost:5257/api/Leave', {
+            axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave`, {
                 headers: {
                     'Authorization': `token ${this.access_token}`
                 }
@@ -181,7 +181,7 @@ export default {
                 .catch((error) => {
                     console.error(error)
                 }),
-            axios.get('http://localhost:5257/api/Attendance', {
+            axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Attendance`, {
                 headers: {
                     'Authorization': `token ${this.access_token}`
                 }
@@ -197,7 +197,6 @@ export default {
                         const itemFormattedDate = itemDate.toISOString().substring(0, 10); // แปลงเป็นรูปแบบของวันที่เหมือนกับ formattedToday
                         return itemFormattedDate === formattedToday;
                     });
-
                     // หลังจากโหลดข้อมูลเสร็จสิ้น ทำการสร้างกราฟ
                     this.createChart();
                 })

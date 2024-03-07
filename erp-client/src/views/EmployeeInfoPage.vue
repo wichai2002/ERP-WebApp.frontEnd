@@ -121,8 +121,9 @@ export default {
         }
     },created() {
         this.access_token = localStorage.getItem("token");
-
-        axios.get('http://localhost:5257/api/Emp_general_information/emp_list', {
+        const _env = process.env;
+    // ${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}  
+        axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}  /Emp_general_information/emp_list`, {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }

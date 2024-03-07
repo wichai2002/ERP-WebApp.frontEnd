@@ -168,19 +168,25 @@ export default {
                 .catch((error) => {
                     console.error(error)
                 }),
-            axios.get('http://localhost:5257/api/Leave', {
-                headers: {
-                    'Authorization': `token ${this.access_token}`
-                }
-            })
-                .then((res) => {
-
-                    this.leavedata = res.data;
-
-                })
-                .catch((error) => {
-                    console.error(error)
-                }),
+                axios.get('http://localhost:5257/api/Leave', {
+        headers: {
+            'Authorization': `token ${this.access_token}`
+        }
+    })
+    .then((res) => {
+        // Filter leave data with start_leave and end_leave between today
+        const today = new Date();
+        // const formattedToday = today.toISOString().substring(0, 10);
+        this.leavedata = res.data.filter(item => {
+            const startLeave = new Date(item.start_leave);
+            const endLeave = new Date(item.end_leave);
+            return startLeave <= today && endLeave >= today;
+        });
+        console.log(this.leavedata)
+    })
+    .catch((error) => {
+        console.error(error)
+    }),
             axios.get('http://localhost:5257/api/Attendance', {
                 headers: {
                     'Authorization': `token ${this.access_token}`

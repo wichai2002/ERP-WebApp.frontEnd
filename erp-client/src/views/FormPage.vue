@@ -85,28 +85,56 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 export default {
 
     data() {
         return {
+            // department: '',
+            // department1: '',
+            // role: '',
+            // firstname: '',
+            // lastname: '',
+            // nickname: '',
+            // nationality: '',
+            // age: null,
+            // gender: '',
+            // birthday: '',
+            // education: '',
+            // education2: '',
+            // education3: '',
+            // email: '',
+            // phone: '',
+            // resume: null,
+            // moreAboutMe: '',
+            // status: 'Interviewed',
+            // accept: true,
+            // application_date: '2022-12-05',
+            // hire_date: '2022-12-05',
+            // image_file: 'url',
             department: '',
-            department1: '',
-            role: '',
-            firstname: '',
-            lastname: '',
-            nickname: '',
-            nationality: '',
-            age: null,
-            gender: '',
-            birthday: '',
-            education: '',
-            education2: '',
-            education3: '',
-            email: '',
-            phone: '',
-            resume: null,
-            moreAboutMe: ''
+            department12: 'Kitchen',
+            role2: 'Cook',
+            firstname2: 'Picgy',
+            lastname2: 'Picgy',
+            nickname2: 'Picgy',
+            nationality2: 'Thai',
+            age2: 20,
+            gender2: 'Male',
+            birthday2: '2022-12-16',
+            education222: 'dsgfsdfsdf',
+            education22: 'sdfsdfsdfsd',
+            education32: 'sdfsdfsdfsdf',
+            email2: 'meen555meen@gmail.com',
+            phone2: '0995043627',
+            resume2: 'url',
+            moreAboutMe2: 'dfhdfzghfzghfgh',
+            status2: 'Interviewed',
+            accept2: false,
+            application_date2: new Date().toISOString().substr(0, 10),
+            hire_date2: '2022-12-05',
+            image_file2: 'url',
+
         };
     },
     methods: {
@@ -117,27 +145,7 @@ export default {
             this.resume = event.target.files[0];
             // Display upload progress or loading spinner if needed
         },
-        async submitForm() {
-            try {
-              
-                const formData = new FormData();
-                formData.append('file', this.resume);
-                const filename = `${this.firstname}_${this.lastname}_${Date.now()}`;
-
-               axios.put('https://71pv22u6vl.execute-api.ap-southeast-2.amazonaws.com/s3-test/test-s3-20392/' + filename, this.resume,{
-                    header: {
-                        'Access-Control-Allow-Origin': "*"
-                    }
-               }).then(response => {
-                console.log(response);
-               })
-                
-                console.log('Form submitted successfully!');
-            } catch (error) {
-                console.error('Error submitting form:', error);
-            }
-        },
-
+        
     }
 };
 </script>

@@ -132,7 +132,7 @@ export default {
         async getInfo(id){
             const _env = process.env;
 
-            // ${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}
+            
 
             await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Payroll/idPer/`+ id, {
             headers: {
@@ -185,7 +185,7 @@ export default {
         },
          save_role(){
             const _env = process.env;
-             axios.put(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Payroll/updatepayRole/` + this.departmentId + "/" + this.salary_base)
+            axios.put(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Payroll/updatepayRole/` + this.departmentId + "/" + this.salary_base)
         .then(response => {
             console.log(response);
             alert("Update payroll for Roles success");

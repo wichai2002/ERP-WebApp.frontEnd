@@ -122,7 +122,7 @@ export default {
     },created() {
         this.access_token = localStorage.getItem("token");
         const _env = process.env;
-    // ${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}  
+
         axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}  /Emp_general_information/emp_list`, {
             headers: {
                 'Authorization': `token ${this.access_token}`

@@ -112,7 +112,7 @@ export default {
             role_fitered: []
         };
     },
-    created() {
+   async created() {
         const token = localStorage.getItem("token");
         const _env = process.env;
         if (token) {
@@ -123,7 +123,7 @@ export default {
                     }
                 });
 
-            departmentList.then(item => {
+          await  departmentList.then(item => {
                 if (item.status == 200) {
                     console.log(item.data);
                     this.departmentList = item.data
@@ -141,7 +141,7 @@ export default {
                     }
                 });
 
-            roleList.then(item => {
+          await roleList.then(item => {
                 if (item.status == 200) {
                     console.log(item.data);
                     this.roleList = item.data
@@ -175,7 +175,7 @@ export default {
         }
     },
     methods: {
-       FindDepartmentIDByRoleID(role_id){
+      async FindDepartmentIDByRoleID(role_id){
             var dep = this.roleList.find(role => role_id == role.role_id);
             return dep.department_id;
         },

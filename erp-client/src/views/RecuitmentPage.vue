@@ -38,7 +38,7 @@
                                     </td>
                                     <td>{{ item.role }}</td>
                                     <td>{{ item.date_of_birth }}</td>
-                                    <td><a href="#">Download</a></td>
+                                    <td><a :href="item.resume_file" download>Download</a></td>
                                     <td :class="{ isInterviewed: isInterviewed(item.status), isAppointmented: isAppointmented(item.status) }"
                                         style="font-weight: 600;">
                                         {{ item.status }}

@@ -112,7 +112,7 @@ export default {
             role_fitered: []
         };
     },
-    created() {
+   async created() {
         const token = localStorage.getItem("token");
         const _env = process.env;
         if (token) {
@@ -123,7 +123,7 @@ export default {
                     }
                 });
 
-            departmentList.then(item => {
+          await  departmentList.then(item => {
                 if (item.status == 200) {
                     console.log(item.data);
                     this.departmentList = item.data
@@ -134,14 +134,14 @@ export default {
                 console.log(error);
             });
 
-            const roleList = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Role/list`
+            const roleList = axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Role`
                 , {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
 
-            roleList.then(item => {
+          await roleList.then(item => {
                 if (item.status == 200) {
                     console.log(item.data);
                     this.roleList = item.data
@@ -159,9 +159,7 @@ export default {
                 }
             })
 
-            emp_gen_info_List.then(item =>{
-
-
+           await emp_gen_info_List.then(item =>{
                 if (item.status == 200){
                     console.log(item.data);
                     this.emp_gen_info_List = item.data;
@@ -175,7 +173,7 @@ export default {
         }
     },
     methods: {
-       FindDepartmentIDByRoleID(role_id){
+      async FindDepartmentIDByRoleID(role_id){
             var dep = this.roleList.find(role => role_id == role.role_id);
             return dep.department_id;
         },
@@ -187,7 +185,6 @@ export default {
                     // console.log(this.role_fitered);
                 }
             })
-
             console.log(this.role_fitered);
         }
     }

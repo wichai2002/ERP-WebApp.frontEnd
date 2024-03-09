@@ -338,7 +338,7 @@ export default {
             const _env = process.env;
             const id = {id: this.emp_id, department: this.department,role:this.role,phone:this.phone,nation:this.nation,first_name:this.first_name,last_name:this.last_name,nick_name:this.nickname,email:this.email,address:this.address,married:this.marry,children:this.child,account_number:this.account_id,sickleave:this.sick_leave,personalleave:this.per_leave,vacationleave:this.va_leave,time_start:this.time_start,time_end:this.time_end};
 
-            // ${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}
+            
 
             axios.put(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Emp_general_information/update_emp/`,id, {
                 headers:{

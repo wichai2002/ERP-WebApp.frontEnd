@@ -5,10 +5,10 @@
                 <h1 style="font-weight: 700;">Form</h1>
             </div>
             <div class="form-container01">
-                <form @submit.prevent="submitForm">
+                <form>
                     <div class="form-group">
                         <label for="department">Department*</label>
-                        <select id="gender" v-model="department1">
+                        <select id="gender" v-model="department_select">
                             <option value="FB">FB</option>
                             <option value="Reception">Reception</option>
                             <option value="Kitchen">Kitchen</option>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone number*</label>
-                        <input type="tel" id="phone" v-model="phone"><br>
+                        <input type="tel" id="phone" v-model="phone" required><br>
                         <span v-if="phone && phone.length !== 10" style="color: red;">Please enter 10 digits.</span>
                     </div>
                     <div class="form-group">
@@ -77,7 +77,8 @@
                         <label for="more">More about me</label>
                         <textarea id="more" v-model="moreAboutMe"></textarea>
                     </div>
-                    <button type="submit">Submit</button>
+                    <button type="button" @click="deleteFiles3()">Submit</button>
+                    <!-- @click="submitForm()" -->
                 </form>
             </div>
         </div>
@@ -86,11 +87,16 @@
 
 <script>
 import axios from 'axios';
+function clearStore() {
+    localStorage.clear();
+    const port = window.location.port
+    window.location.href = `${process.env.VUE_APP_PROTOCAL}://${process.env.VUE_APP_HOST}:${port}/login`;
+}
 export default {
     data() {
         return {
             department: '',
-            department1: '',
+            department_select: '',
             role: '',
             firstname: '',
             lastname: '',
@@ -118,23 +124,75 @@ export default {
         },
         async submitForm() {
             try {
+                const _env = process.env;
+                console.log(_env.VUE_APP_S3API);
 
-                // const formData = new FormData();
-                // formData.append('file', this.resume);
                 const filename = `${this.firstname}_${this.lastname}_${Date.now()}`;
+                const url_api = await axios.get(`${_env.VUE_APP_S3API}` + filename);
+                console.log(url_api.data);
 
-                 await  axios.put('https://71pv22u6vl.execute-api.ap-southeast-2.amazonaws.com/s3-test/test-s3-20392/' + filename, this.resume,{
-                   }).then(response => {
-                    console.log(response.status);
-                   }).catch(error =>{
-                    console.log(error);
-                   })
+                const upload = await axios.put(url_api.data.url, this.resume, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+
+                const info = {
+                    department: this.department_select,
+                    role: this.role,
+                    firstname: this.firstname,
+                    lastname: this.lastname,
+                    nickname: this.nickname,
+                    nationality: this.nationality,
+                    age: this.age,
+                    gender: this.gender,
+                    birthday: this.birthday,
+                    education: this.education,
+                    education2: this.education2,
+                    education3: this.education3,
+                    email: this.email,
+                    phone: this.phone,
+                    resume_file: `${_env.VUE_APP_S3API}getfile/`+filename,
+                    moreAboutMe: this.moreAboutMe
+                };
+
                 
-                console.log('Form submitted successfully!');
+                console.log("Upload:", upload.status);
+                if (upload.status != 200) {
+                    alert("ERROR FROM UPLOAD to s3");
+                } else {
+                    console.log(upload.status);
+
+                    const record_applicant = await axios.post(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Applicant`,
+                    info, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`
+                        }
+                    });
+
+                    if (record_applicant.status == 204){
+                        console.log(200);
+                    }else if (record_applicant.status == 401){
+                        clearStore();
+                    }else{
+                        this.deleteFiles3();
+                    }
+
+                }
+
+
             } catch (error) {
                 console.error('Error submitting form:', error);
             }
         },
+        async deleteFiles3(){
+            // const rul = 'https://71pv22u6vl.execute-api.ap-southeast-2.amazonaws.com/s3-test/test-s3-20392/test__1709909716821';
+            const _env = process.env;
+            const api = `${_env.VUE_APP_S3API}`+'test__1709909716821/delete';
+            console.log(api);
+            const del = await axios.get(api);
+            console.log(del.data.status);
+        }
 
     }
 };

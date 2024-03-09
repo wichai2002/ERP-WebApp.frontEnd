@@ -170,7 +170,7 @@ async created(){
     this.role_id = await urlParams.get("role_id")
     const _env = process.env;
     this.access_token = localStorage.getItem("token");
-    // ${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}  
+
         axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/day/`+this.em_id, {
             headers: {
                 'Authorization': `token ${this.access_token}`

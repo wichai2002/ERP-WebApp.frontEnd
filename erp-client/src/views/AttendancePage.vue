@@ -186,7 +186,7 @@ export default {
     },
     async created() {
 
-
+        
         this.access_token = localStorage.getItem("token");
         const _env = process.env;
         

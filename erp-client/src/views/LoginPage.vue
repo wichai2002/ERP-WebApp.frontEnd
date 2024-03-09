@@ -72,7 +72,7 @@ export default {
                 localStorage.setItem("hrName", authen.data.hrName);
                 console.log("Go to Dashbord!");
                 //const port = window.location.port
-                window.location.href = `http://54.253.57.122:8080/dashboard`;
+                window.location.href = `http://${_env.VUE_APP_FRONTHOST}:8080/dashboard`;
                 // this.$router.push('/dashboard')
             } else {
                 console.log(authen.status);

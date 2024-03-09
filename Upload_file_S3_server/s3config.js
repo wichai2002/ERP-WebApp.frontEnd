@@ -14,8 +14,8 @@ dotenv.config()
 
 const region = "ap-southeast-2"
 const bucketName = "test-s3-20392"
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
+const accessKeyId = 'AKIAZNPPFSSTGI47XL7J'
+const secretAccessKey = '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'
 
 const s3 = new aws.S3({
     region,
@@ -59,9 +59,3 @@ async function getObject(filename) {
 module.exports.generateUploadURL = generateUploadURL;
 module.exports.deleteObject = deleteObject;
 module.exports.getObject = getObject;
-
-// app.get("/download/:filename", async (req, res) => {
-//     const filename = req.params.filename
-//     let x = await s3.getObject({ Bucket: BUCKET, Key: filename }).promise();
-//     res.send(x.Body)
-// })

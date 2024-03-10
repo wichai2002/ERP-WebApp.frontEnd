@@ -77,7 +77,6 @@ export default {
             } else {
                 console.log(authen.status);
             }
-
         }
     }
 }

@@ -28,7 +28,7 @@ app.get("/s3Url/getfile/:filename", async (req, res) => {
     console.log("GET object:",req.params.filename);
     const url = await URL.getObject(filename);
     res.send(url)
-})
+});
 
 app.listen(3000, () => console.log("listening on port 3000"));
 

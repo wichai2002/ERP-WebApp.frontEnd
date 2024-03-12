@@ -11,24 +11,23 @@
                 <!-- content here -->
                 <!-- block detail -->
                 <div class="row" style="margin-left: 1%;">
- 
-                    <div class="col-4 bg-white my-4" style="border: 1px solid black; height: 15rem; width: 30%; align-items: center; justify-content: center; margin-left: 30%; border-radius: 10px;">
+                    <div class="col-lg-8 col-mb-7 col-sg-6 bg-white my-4" style="border: 1px solid black; height: 15rem; width: 40%; align-items: center; justify-content: center; margin-left: 25%; border-radius: 10px;">
                         <div class="row">
                             <div class="col-4" style="margin-top: 5rem">
                                 <img src="../assets/image 1.png" alt="" style="margin-left: 15px;">
                             </div>
-                            <div class="col-4 my-5">
-                               <h5 style="margin-bottom: 20px;  "><b>Employee_id</b> </h5>
-                               <h5 style="margin-bottom: 20px; "><b>Fullname</b> </h5>
-                               <h5 style="margin-bottom: 20px; "><b>Department</b> </h5>
-                               <h5 style="margin-bottom: 20px; "><b>Roles</b></h5>
+                            <div class="col-lg-8 col-mb-5 col-sm-4 my-4">
+                               <h5 style="margin-bottom: 20px;" class="my-2"><b>Employee_id</b> {{em_id}}</h5>
+                               <h5 style="margin-bottom: 20px; "><b>Fullname</b>{{data2.first_name}} {{data2.last_name}}</h5>
+                               <h5 style="margin-bottom: 20px; "><b>Department</b>{{data3._Roles.position}}</h5>
+                               <h5 style="margin-bottom: 20px; "><b>Roles</b> {{ data3._department.department_name }}</h5>
                             </div>
-                            <div class="col-4 my-5">
+                            <!-- <div class="col-4 my-5">
                                <h5 style="margin-bottom: 20px;">{{em_id}}</h5>
                                <h6 style="margin-bottom: 20px;">{{data2.first_name}} {{data2.last_name}}</h6>
                                <h5 style="margin-bottom: 20px;">{{data3._Roles.position}}</h5>
                                <h5 style="margin-bottom: 20px;">{{ data3._department.department_name }}</h5>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -166,24 +165,25 @@ methods: {
 },
 async created(){
     const urlParams = new URLSearchParams(window.location.search);
-     this.em_id = await urlParams.get("emp_id")
+    this.em_id = await urlParams.get("emp_id")
     this.role_id = await urlParams.get("role_id")
     const _env = process.env;
     this.access_token = localStorage.getItem("token");
 
-        await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/department/`+this.role_id, {
+    await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/department/`+this.role_id, {
                 headers: {
                     'Authorization': `token ${this.access_token}`
                 }
             })
             .then((res) => {
-            this.data3 = res.data[0];
+                console.log(res.data);
+                this.data3 = res.data[0];
             })
             .catch((error) => {
             console.error(error)
             })
 
-        await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/day/`+this.em_id, {
+       await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/day/`+this.em_id, {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }
@@ -196,13 +196,13 @@ async created(){
             console.error(error)
             })
 
-        await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/dayper/`+this.em_id, {
+       await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/dayper/`+this.em_id, {
         headers: {
                 'Authorization': `token ${this.access_token}`
             }
             })
             .then((res) => {
-            
+            console.log(res.data[0]);
             this.data2 = res.data[0];
             })
             .catch((error) => {
@@ -211,9 +211,7 @@ async created(){
 
 
 
-
-
-       await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/diffdate/`+this.em_id ,{
+      await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/diffdate/`+this.em_id ,{
             headers: {
                 'Authorization': `token ${this.access_token}`
                 }
@@ -226,7 +224,6 @@ async created(){
             .catch((error) => {
                 console.log(error);
             })
-
 
         this.diff_day = this.date_day.start_leave - this.date_day.end_leave
 

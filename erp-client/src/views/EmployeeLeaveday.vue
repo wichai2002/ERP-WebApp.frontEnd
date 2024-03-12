@@ -204,7 +204,7 @@ async created(){
                 }
             })
             .then((res) => {
-            this.data3 = res.data[0];
+            this.data3 = res.data[0]._Roles;
             })
             .catch((error) => {
             console.error(error)

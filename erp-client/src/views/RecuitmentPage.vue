@@ -38,7 +38,8 @@
                                     </td>
                                     <td>{{ item.role }}</td>
                                     <td>{{ item.date_of_birth }}</td>
-                                    <td><a :href="item.resume_file" download>Download</a></td>
+                                    <!-- https://71pv22u6vl.execute-api.ap-southeast-2.amazonaws.com/s3-test/test-s3-20392/{filename} -->
+                                    <td><a :href="'https://71pv22u6vl.execute-api.ap-southeast-2.amazonaws.com/s3-test/test-s3-20392/'+item.resume_file">Download</a></td>
                                     <td :class="{ isInterviewed: isInterviewed(item.status), isAppointmented: isAppointmented(item.status) }"
                                         style="font-weight: 600;">
                                         {{ item.status }}

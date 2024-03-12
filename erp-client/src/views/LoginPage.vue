@@ -71,13 +71,12 @@ export default {
                 localStorage.setItem("token", authen.data.authen_token);
                 localStorage.setItem("hrName", authen.data.hrName);
                 console.log("Go to Dashbord!");
-                const port = window.location.port
-                window.location.href = `${process.env.VUE_APP_FRONTPROTOCAL}://${process.env.VUE_APP_FRONTHOST}:${port}/dashboard`;
-                // this.$router.push('/dashboard')
+                //const port = window.location.port
+                // window.location.href = `web-lb-1-2023231545.ap-southeast-2.elb.amazonaws.com/dashboard`;
+                this.$router.push('/dashboard')
             } else {
                 console.log(authen.status);
             }
-
         }
     }
 }

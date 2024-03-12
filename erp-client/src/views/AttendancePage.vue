@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid " :class="{ 'blur': isAddModalVisible }">
+    <div class="container-fluid ">
         <div class="row">
             <div class="col ">
                 <!-- Include Sidebar component -->
@@ -70,8 +70,10 @@
                 </div>
             </div>
 
-            <modal class="col" v-if="isAddModalVisible" @close="toggleAddModal">
-                <div class="row modal-content">
+            <modal class="modal fade show" v-if="isAddModalVisible" @close="toggleAddModal"
+            aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:block">
+                <div class="modal-content">
+    
                     <form @submit.prevent="addNewData" class="form-container">
                         <div class="form-group">
                             <label for="newEmpId">Employee ID:</label>

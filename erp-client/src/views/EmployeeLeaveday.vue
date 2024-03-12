@@ -171,7 +171,7 @@ async created(){
     const _env = process.env;
     this.access_token = localStorage.getItem("token");
 
-        axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/day/`+this.em_id, {
+        await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/day/`+this.em_id, {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }
@@ -184,7 +184,7 @@ async created(){
             console.error(error)
             })
 
-        axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/dayper/`+this.em_id, {
+        await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/dayper/`+this.em_id, {
         headers: {
                 'Authorization': `token ${this.access_token}`
             }
@@ -211,7 +211,7 @@ async created(){
             })
 
 
-        axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/diffdate/`+this.em_id ,{
+       await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/diffdate/`+this.em_id ,{
             headers: {
                 'Authorization': `token ${this.access_token}`
                 }

@@ -72,7 +72,7 @@ export default {
                 localStorage.setItem("hrName", authen.data.hrName);
                 console.log("Go to Dashbord!");
                 //const port = window.location.port
-                window.location.href = `http://${_env.VUE_APP_FRONTHOST}:${_env.VUE_APP_FRONTPORT}/dashboard`;
+                window.location.href = `web-lb-1-2023231545.ap-southeast-2.elb.amazonaws.com/dashboard`;
                 // this.$router.push('/dashboard')
             } else {
                 console.log(authen.status);

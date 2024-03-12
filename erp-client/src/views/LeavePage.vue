@@ -33,7 +33,7 @@
                                 </tr>
                             </thead>
                             <tbody v-for="(item,index) in data1" :key="item">
-                                <tr >
+                                <tr>
                                         <td><a :href="'./employeeleaveday?emp_id='+item._gen.emp_gen_id+'&role_id='+item._gen.role_id" style="color: black; text-decoration: none;">{{item._gen.emp_gen_id}}</a></td>
                                         <td>{{item._gen.first_name}} {{item._gen.last_name}}</td>
                                         <td>{{item.role_name}}</td>
@@ -143,9 +143,9 @@ export default {
             
         },
         none_confirm(sid,rid,typ){
-            console.log(sid)
+            console.log(sid,typ)
             const _env = process.env;
-            axios.put(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/confirm/`+sid+'/'+rid+'/'+typ+'/2', {
+            axios.put(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/confirm/`+sid+'/'+rid+'/'+this.cc+'/2', {
             headers: {
                 'Authorization': `token ${this.access_token}`
             }

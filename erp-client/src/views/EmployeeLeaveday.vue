@@ -171,6 +171,18 @@ async created(){
     const _env = process.env;
     this.access_token = localStorage.getItem("token");
 
+        await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/department/`+this.role_id, {
+                headers: {
+                    'Authorization': `token ${this.access_token}`
+                }
+            })
+            .then((res) => {
+            this.data3 = res.data[0];
+            })
+            .catch((error) => {
+            console.error(error)
+            })
+
         await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/day/`+this.em_id, {
             headers: {
                 'Authorization': `token ${this.access_token}`
@@ -198,17 +210,7 @@ async created(){
             })
 
 
-        await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/department/`+this.role_id, {
-                headers: {
-                    'Authorization': `token ${this.access_token}`
-                }
-            })
-            .then((res) => {
-            this.data3 = res.data[0];
-            })
-            .catch((error) => {
-            console.error(error)
-            })
+
 
 
        await axios.get(`${_env.VUE_APP_PROTOCAL}://${_env.VUE_APP_HOST}:${_env.VUE_APP_PORT}/${_env.VUE_APP_API_PREFIX}/Leave/diffdate/`+this.em_id ,{
